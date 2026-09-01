@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ERP Gestão de Materiais — Index</title>
+    <meta
+      name="description"
+      content="Protótipo modular do ERP Gestão de Materiais — hub inicial."
+    />
+
+    <!-- Estilos base e específicos da index (serão criados em static/css/) -->
+    <link rel="stylesheet" href="../static/css/base.css" />
+    <link rel="stylesheet" href="../static/css/index.css" />
+
+    <!-- Ícone/brand (opcional — adicionável posteriormente) -->
+    <!-- <link rel="icon" href="static/img/favicon.svg"> -->
+  </head>
+  <body>
+    <!--
+    Estrutura principal:
+    - A Sidebar é carregada dinamicamente dentro de #sidebar-container por static/js/sidebar.js (fetch).
+    - Não duplicar HTML da sidebar em outras páginas — usar apenas este container.
+  -->
+    <div id="sidebar-container" aria-hidden="true"></div>
+
+    <div id="app" class="app-root">
+      <header class="topbar" role="banner">
+        <!-- Botão para abrir/fechar Sidebar em telas pequenas. sidebar.js deverá controlar aria-expanded. -->
+        <button
+          id="sidebar-toggle"
+          class="btn btn-icon"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+        >
+          <span aria-hidden="true">☰</span>
+        </button>
+
+        <div
+          class="brand"
+          id="brand"
+          role="region"
+          aria-label="Identidade do sistema"
+        >
+          <!-- Logo é referencial; o arquivo pode ser adicionado em static/img/ -->
+          <img
+            src="static/img/logo.svg"
+            alt="Logotipo ERP Gestão de Materiais"
+            class="logo"
+            width="40"
+            height="40"
+          />
+          <div class="brand-text">
+            <h1 class="system-title">ERP Gestão de Materiais</h1>
+            <p class="tagline">
+              Protótipo modular — desenvolvimento incremental (RAD)
+            </p>
+          </div>
+        </div>
+
+        <div class="top-actions" role="navigation" aria-label="Ações rápidas">
+          <div
+            id="notifications"
+            class="notifications"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <!-- Área preparada para notificações futuras; conteúdo será atualizado pelo JS -->
+          </div>
+          <a
+            href="#"
+            id="shortcut-help"
+            class="btn btn-ghost"
+            aria-label="Ajuda"
+            >Ajuda</a
+          >
+          <button id="user-shortcut" class="btn" aria-label="Acesso ao usuário">
+            Minha Conta
+          </button>
+        </div>
+      </header>
+
+      <main id="main" class="main-content" role="main">
+        <!-- Introdução / resumo do sistema -->
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="container">
+            <h2 id="hero-title">Bem-vindo ao ERP Gestão de Materiais</h2>
+            <p class="lead">
+              Página inicial e hub de navegação. Selecione um módulo abaixo para
+              começar.
+            </p>
+
+            <!-- Cards de acesso aos módulos (links para pages/*.html) -->
+            <div class="cards" role="list">
+              <a
+                role="listitem"
+                class="card"
+                href="pages/previsao.html"
+                id="card-previsao"
+              >
+                <div class="card-header">
+                  <h3>Previsão de Gastos</h3>
+                  <p class="card-sub">Planejamento e acompanhamento</p>
+                </div>
+                <div class="card-body">
+                  <p class="card-note">
+                    Preparado para comparar PREVISTO × REALIZADO
+                  </p>
+                  <div class="card-indicators" aria-hidden="false">
+                    Previsto: <strong id="indicator-previsao">—</strong>
+                  </div>
+                </div>
+              </a>
+
+              <a
+                role="listitem"
+                class="card"
+                href="pages/orcamentos.html"
+                id="card-orcamentos"
+              >
+                <div class="card-header">
+                  <h3>Orçamentos</h3>
+                  <p class="card-sub">
+                    Cotações e comparativos de fornecedores
+                  </p>
+                </div>
+                <div class="card-body">
+                  <p class="card-note">
+                    Cards para comparação futura (preço, prazo, condição)
+                  </p>
+                  <div class="card-indicators">
+                    Último: <strong id="indicator-orcamentos">—</strong>
+                  </div>
+                </div>
+              </a>
+
+              <a
+                role="listitem"
+                class="card"
+                href="pages/recibos.html"
+                id="card-recibos"
+              >
+                <div class="card-header">
+                  <h3>Recibos</h3>
+                  <p class="card-sub">Documentos e comprovantes</p>
+                </div>
+                <div class="card-body">
+                  <p class="card-note">
+                    Consulta, filtros e visualização de recibos
+                  </p>
+                  <div class="card-indicators">
+                    Pendentes: <strong id="indicator-recibos">—</strong>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Indicadores resumidos preparados para integração futura -->
+        <section class="overview" aria-labelledby="overview-title">
+          <div class="container">
+            <h3 id="overview-title">Indicadores rápidos</h3>
+            <div
+              class="widgets"
+              role="region"
+              aria-label="Indicadores do sistema"
+            >
+              <div class="widget" tabindex="0">
+                <span class="widget-title">Total Previsto</span>
+                <span class="widget-value" id="widget-total-previsto"
+                  >R$ —</span
+                >
+              </div>
+              <div class="widget" tabindex="0">
+                <span class="widget-title">Orçamentos Ativos</span>
+                <span class="widget-value" id="widget-total-orcamentos">—</span>
+              </div>
+              <div class="widget" tabindex="0">
+                <span class="widget-title">Recibos Hoje</span>
+                <span class="widget-value" id="widget-recibos-hoje">—</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Espaço para conteúdo adicional / atalhos -->
+        <section class="shortcuts" aria-labelledby="shortcuts-title">
+          <div class="container">
+            <h3 id="shortcuts-title">Atalhos</h3>
+            <div class="shortcut-list">
+              <a class="shortcut" href="pages/previsao.html">Nova previsão</a>
+              <a class="shortcut" href="pages/orcamentos.html"
+                >Novo orçamento</a
+              >
+              <a class="shortcut" href="pages/recibos.html">Adicionar recibo</a>
+            </div>
+          </div>
+        </section>
+
+        <footer class="site-footer" role="contentinfo">
+          <div class="container">
+            <p class="muted">
+              Protótipo — ERP Gestão de Materiais • Implementação modular e
+              incremental.
+            </p>
+            <p class="muted">
+              Leia o <a href="README.md">README</a> para instruções de
+              desenvolvimento.
+            </p>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <!-- Aviso para usuários sem JS -->
+    <noscript>
+      <div class="no-js-warning" role="alert">
+        Este protótipo funciona melhor com JavaScript habilitado. Algumas partes
+        da interface são carregadas dinamicamente.
+      </div>
+    </noscript>
+
+    <!-- Scripts modulares (serão criados em static/js/) -->
+    <script src="../static/js/sidebar.js" defer></script>
+    <script src="../static/js/index.js" defer></script>
+  </body>
+</html>

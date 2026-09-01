@@ -1,0 +1,36 @@
+/* static/css/index.css
+   Estilos específicos para index.html (hero, cards, shortcuts)
+*/
+
+/* Hero */
+.hero {
+  padding: 1rem 0;
+}
+.hero .lead { color: var(--cor-muted); margin-top: 0.5rem; }
+
+/* Card indicators and notes */
+.card-note { font-size:0.9rem; color:var(--cor-muted); margin-bottom:0.5rem; }
+.card-indicators { margin-top:0.5rem; font-size:0.95rem; color:var(--cor-texto); }
+
+/* Shortcuts */
+.shortcuts .shortcut-list { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.5rem; }
+.shortcut {
+  display:inline-block;
+  background:#fff;
+  padding:0.5rem 0.75rem;
+  border-radius:6px;
+  box-shadow: var(--elevation-1);
+  text-decoration:none;
+  color:var(--cor-principal);
+}
+
+/* Overview widgets */
+.overview { margin-top: 1.25rem; }
+.widget-value { display:block; margin-top:0.25rem; font-weight:700; font-size:1.05rem; }
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .brand-text { display:none; } /* compact brand on very small screens */
+  .top-actions { display:flex; gap:0.25rem; align-items:center; }
+  .widgets { flex-direction:column; }
+}
