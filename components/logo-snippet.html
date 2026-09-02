@@ -1,0 +1,57 @@
+<!-- Header: logotipo principal (horizontal). Mantém duas variantes no DOM para troca rápida -->
+<div class="brand">
+  <!-- Versão colorida / padrão (para fundos claros) -->
+  <img
+    src="static/img/Logo_01.svg"
+    alt="Supersonic — ERP Gestão de Materiais"
+    class="brand-logo logo-color"
+    width="220"
+    height="48"
+  />
+
+  <!-- Versão branca (para fundos escuros) -->
+  <img
+    src="static/img/Logo_02.svg"
+    alt="Supersonic — ERP"
+    class="brand-logo logo-white"
+    width="220"
+    height="48"
+    style="display: none"
+  />
+
+  <!-- Marca (opcional) -->
+  <img
+    src="static/img/Logo_05.svg"
+    alt="Supersonic mark"
+    class="brand-mark"
+    width="48"
+    height="48"
+  />
+</div>
+
+<!-- Sidebar: recomenda-se colocar .logo-on-dark se a sidebar tiver fundo escuro -->
+<aside
+  class="sidebar logo-on-dark"
+  role="navigation"
+  aria-label="Menu principal"
+>
+  <div class="sidebar-logo-container">
+    <!-- Para o sidebar escuro mostramos preferencialmente a variante branca -->
+    <img
+      src="static/img/Logo_02.svg"
+      alt="Supersonic"
+      class="brand-logo logo-white"
+      width="180"
+      height="40"
+    />
+    <!-- Marca pequena (pode ser colorida) -->
+    <img
+      src="static/img/Logo_05.svg"
+      alt=""
+      class="brand-mark"
+      width="40"
+      height="40"
+    />
+  </div>
+  <!-- ... resto do menu ... -->
+</aside>

@@ -8,27 +8,27 @@
 /* ========================================================================== */
 :root {
   /* Paleta principal (ajustada a partir das imagens fornecidas) */
-  --brand-900: #243f48;      /* azul escuro / texto principal (substitui azul-noite) */
+  --brand-900: #243f48; /* azul escuro / texto principal (substitui azul-noite) */
   --brand-700: #2f606b;
-  --brand-500: #14B1E7;      /* azul dia / acento primário (já existente) */
-  --brand-300: #64e6ff;      /* acento claro (para highlights) */
+  --brand-500: #14b1e7; /* azul dia / acento primário (já existente) */
+  --brand-300: #64e6ff; /* acento claro (para highlights) */
 
   /* Neutros */
-  --bg-body: #f4f6f9;        /* fundo da aplicação */
-  --surface: #ffffff;        /* cards, painéis */
-  --muted: #64748b;         /* textos secundários */
-  --text: #0f1720;          /* texto principal */
+  --bg-body: #f4f6f9; /* fundo da aplicação */
+  --surface: #ffffff; /* cards, painéis */
+  --muted: #64748b; /* textos secundários */
+  --text: #0f1720; /* texto principal */
 
   /* Semantic */
   --success: #10b981;
   --warning: #f59e0b;
-  --danger:  #ef4444;
+  --danger: #ef4444;
 
   /* Layout */
   --sidebar-width: 250px;
   --border-radius: 10px;
-  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
-  --shadow-md: 0 8px 24px rgba(16,24,40,0.08);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 24px rgba(16, 24, 40, 0.08);
 
   /* Logo paths (apenas conveniência — não lida pelo CSS como variável de URL em todas as plataformas,
      usamos essas strings apenas como documentação/guia; use <img> com os arquivos abaixo) */
@@ -40,8 +40,13 @@
 /* ========================================================================== */
 /* RESET E BASES */
 /* ========================================================================== */
-* { box-sizing: border-box; }
-html, body { height: 100%; }
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
 body {
   margin: 0;
   font-family: "Avenir Next", "Avenir", Helvetica, Arial, sans-serif;
@@ -64,11 +69,6 @@ body {
   --brand-500: #4ae2ff; /* acento mais brilhante em dark */
 }
 
-/* 
-.theme-light {}
-  /* mantém as variáveis por omissão */
-
-
 /* ========================================================================== */
 /* SIDEBAR / BRAND (LOGO) */
 /* ========================================================================== */
@@ -82,14 +82,14 @@ body {
   gap: 12px;
   padding: 12px 16px;
   box-sizing: border-box;
-  border-bottom: 1px solid rgba(0,0,0,0.04);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 /* Imagem do logotipo principal (horizontal) */
 .brand-logo {
   display: inline-block;
   vertical-align: middle;
-  height: 48px;              /* ajuste padrão — troque conforme necessidade */
+  height: 48px; /* ajuste padrão — troque conforme necessidade */
   width: auto;
 }
 
@@ -103,12 +103,16 @@ body {
 .brand-mark {
   display: inline-block;
   height: 40px;
-  width:auto;
+  width: auto;
 }
 
 /* Classe utilitária para exibir só a marca (útil em sidebar colapsada) */
-.brand-only .brand-logo { display: none; }
-.brand-only .brand-mark { display: inline-block; }
+.brand-only .brand-logo {
+  display: none;
+}
+.brand-only .brand-mark {
+  display: inline-block;
+}
 
 /* ========================================================================== */
 /* HEADER / TOPBAR — usa a paleta principal para elementos de destaque */
@@ -137,7 +141,7 @@ body {
 }
 .btn-ghost {
   background: transparent;
-  border: 1px solid rgba(15,23,32,0.06);
+  border: 1px solid rgba(15, 23, 32, 0.06);
   color: var(--text);
 }
 
@@ -146,14 +150,24 @@ body {
    - .logo-on-dark  -> usar variante branca
    - .logo-on-light -> usar variante colorida (default)
    ========================================================================== */
-.logo-on-dark img { display: block; }
-.logo-on-dark img.logo-color { display: none; } /* garantir que a versão colorida fique escondida */
+.logo-on-dark img {
+  display: block;
+}
+.logo-on-dark img.logo-color {
+  display: none;
+} /* garantir que a versão colorida fique escondida */
 
-.logo-on-light img.logo-white { display: none; } /* esconder versão branca em plano claro */
+.logo-on-light img.logo-white {
+  display: none;
+} /* esconder versão branca em plano claro */
 
 /* Quando o body tem .theme-dark, força o comportamento */
-.theme-dark .logo-on-dark img.logo-color { display: none; }
-.theme-dark .logo-on-dark img.logo-white { display: block; }
+.theme-dark .logo-on-dark img.logo-color {
+  display: none;
+}
+.theme-dark .logo-on-dark img.logo-white {
+  display: block;
+}
 
 /* ========================================================================== */
 /* Acessibilidade: tamanhos alternativos, foco e contraste (padrão)
@@ -163,7 +177,7 @@ body {
   outline: none;
 }
 :focus-visible {
-  outline: 3px solid rgba(20,177,231,0.18);
+  outline: 3px solid rgba(20, 177, 231, 0.18);
   outline-offset: 2px;
   border-radius: 6px;
 }
@@ -187,7 +201,14 @@ body {
 /* Exemplo de responsividade para a área do logo (reduz em telas pequenas) */
 /* ========================================================================== */
 @media (max-width: 900px) {
-  .sidebar-logo-container { height: 72px; padding: 10px; }
-  .brand-logo { height: 40px; }
-  .brand-mark { height: 34px; }
+  .sidebar-logo-container {
+    height: 72px;
+    padding: 10px;
+  }
+  .brand-logo {
+    height: 40px;
+  }
+  .brand-mark {
+    height: 34px;
+  }
 }
