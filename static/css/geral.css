@@ -7,39 +7,75 @@
 /* VARIÁVEIS GLOBAIS (PALETA) */
 /* ========================================================================== */
 :root {
-  /* Paleta principal (ajustada a partir das imagens fornecidas) */
-  --brand-900: #243f48;      /* azul escuro / texto principal (substitui azul-noite) */
-  --brand-700: #2f606b;
-  --brand-500: #14B1E7;      /* azul dia / acento primário (já existente) */
-  --brand-300: #64e6ff;      /* acento claro (para highlights) */
 
-  /* Neutros */
-  --bg-body: #f4f6f9;        /* fundo da aplicação */
-  --surface: #ffffff;        /* cards, painéis */
-  --muted: #64748b;         /* textos secundários */
-  --text: #0f1720;          /* texto principal */
+  /* ======================================================
+     IDENTIDADE VISUAL SUPERSONIC
+     ====================================================== */
 
-  /* Semantic */
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger:  #ef4444;
+  --ss-azul-noite: #394F5A;
+  --ss-cinza: #4D4D4F;
+  --ss-azul-dia: #14B1E7;
 
-  /* Layout */
+  /* ======================================================
+     ALIASES DO SISTEMA
+     ====================================================== */
+
+  --brand-dark: var(--ss-azul-noite);
+  --brand-primary: var(--ss-azul-dia);
+  --brand-neutral: var(--ss-cinza);
+
+  /* ======================================================
+     SUPERFÍCIES
+     ====================================================== */
+
+  --bg-body: #F4F6F9;
+  --surface: #FFFFFF;
+
+  /* ======================================================
+     TEXTO
+     ====================================================== */
+
+  --text: var(--ss-azul-noite);
+  --muted: var(--ss-cinza);
+
+  /* ======================================================
+     STATUS
+     ====================================================== */
+
+  --success: #16A34A;
+  --warning: #F59E0B;
+  --danger: #DC2626;
+
+  /* ======================================================
+     LAYOUT
+     ====================================================== */
+
   --sidebar-width: 250px;
   --border-radius: 10px;
-  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
-  --shadow-md: 0 8px 24px rgba(16,24,40,0.08);
 
+  --shadow-sm: 0 2px 6px rgba(57,79,90,.12);
+  --shadow-md: 0 8px 24px rgba(57,79,90,.18);
+  
   /* Logo paths (apenas conveniência — não lida pelo CSS como variável de URL em todas as plataformas,
      usamos essas strings apenas como documentação/guia; use <img> com os arquivos abaixo) */
   --logo-full: "static/img/supersonic-logo.svg";
   --logo-full-white: "static/img/supersonic-logo-white.svg";
   --logo-mark-cyan: "static/img/supersonic-mark-cyan.svg";
+
 }
 
 /* ========================================================================== */
 /* RESET E BASES */
 /* ========================================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: var(--ss-azul-noite);
+}
+
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body {
@@ -56,6 +92,14 @@ body {
    - adicionar .theme-dark ao body para mudar rapidamente a interpretação de cores
    - adicionar .theme-light se desejar forçar a variação clara
    ========================================================================== */
+
+   /* tEXTOS SECUNDARIOS */
+
+.muted,
+.card-sub,
+.card-note {
+  color: var(--ss-cinza);
+}
 .theme-dark {
   --bg-body: #122427;
   --surface: #18333a;
@@ -105,6 +149,22 @@ body {
 /* Classe utilitária para exibir só a marca (útil em sidebar colapsada) */
 .brand-only .brand-logo { display: none; }
 .brand-only .brand-mark { display: inline-block; }
+
+
+/* ~~~~~~~~~~~~~~~~Sidebar destaque do menu Ativo(hover)~~~~~~~~~~~~~~ */
+.nav-link.active {
+background: rgba(20,177,231,.15);
+border-left: 4px solid var(--ss-azul-dia);
+color: #FFFFFF;
+}
+Mostrar mais linhas
+
+/*~~~~~~~~~~~~~~SIDEBAR DARK MODE~~~~~~~~~~~~~~ */
+/* ADAPATAR PARA QUANDO INCLUIR BOTÃO DE DARK MODE */ 
+ .sidebar {
+  background: var(--ss-azul-noite);
+  color: #FFFFFF;
+}
 
 /* ========================================================================== */
 /* SIDEBAR / BRAND (LOGO) */
@@ -219,28 +279,26 @@ body {
 /* ========================================================================== */
 /* HEADER / TOPBAR — usa a paleta principal para elementos de destaque */
 /* ========================================================================== */
-.topbar {
-  height: 64px;
-  background: var(--surface);
+.content-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0 16px;
-  box-shadow: var(--shadow-sm);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  grid-column: 2 / -1;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.topbar {
+  background: var(--surface);
+  border-bottom: 3px solid var(--ss-azul-dia);
 }
 
 /* Botões / acentos */
 .btn-primary {
-  background: linear-gradient(90deg, var(--brand-500), var(--brand-300));
-  color: white;
+  background: var(--ss-azul-dia);
+  color: #FFFFFF;
   border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #1099c7;
 }
 .btn-ghost {
   background: transparent;
@@ -270,11 +328,9 @@ body {
   outline: none;
 }
 :focus-visible {
-  outline: 3px solid rgba(20,177,231,0.18);
+  outline: 3px solid rgba(20,177,231,.35);
   outline-offset: 2px;
-  border-radius: 6px;
 }
-
 /* ========================================================================== */
 /* EXTRAS: stickers, favicons, e placeholders para quando o logo não carregar
    ========================================================================== */
@@ -320,13 +376,7 @@ body {
 
 /* Força header para ocupar a área de conteúdo (não da sidebar) em telas grandes */
 @media (min-width: 901px) {
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    width: calc(100% - var(--sidebar-width));
-    margin-left: var(--sidebar-width);
-  }
+ 
 }
 
 /* Acessibilidade e foco visível (padrão) */

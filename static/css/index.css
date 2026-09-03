@@ -6,11 +6,11 @@
 .hero {
   padding: 1rem 0;
 }
-.hero .lead { color: var(--cor-muted); margin-top: 0.5rem; }
+.hero .lead { color: var(--muted); margin-top: 0.5rem; }
 
 /* Card indicators and notes */
-.card-note { font-size:0.9rem; color:var(--cor-muted); margin-bottom:0.5rem; }
-.card-indicators { margin-top:0.5rem; font-size:0.95rem; color:var(--cor-texto); }
+.card-note { font-size:0.9rem; color:var(--muted); margin-bottom:0.5rem; }
+.card-indicators { margin-top:0.5rem; font-size:0.95rem; color:var(--text); }
 
 /* Shortcuts */
 .shortcuts .shortcut-list { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.5rem; }
@@ -21,7 +21,7 @@
   border-radius:6px;
   box-shadow: var(--elevation-1);
   text-decoration:none;
-  color:var(--cor-principal);
+  color:var(--ss-azul-dia);
 }
 
 /* Overview widgets */
