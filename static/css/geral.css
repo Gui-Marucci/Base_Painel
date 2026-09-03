@@ -1,0 +1,333 @@
+/* geral.css — padrão de cores e logos
+   Variáveis e classes para padronizar identidade visual (SUPesRSONIC-like)
+   Use este arquivo como referência principal para cores e para a integração dos logos.
+*/
+
+/* ========================================================================== */
+/* VARIÁVEIS GLOBAIS (PALETA) */
+/* ========================================================================== */
+:root {
+  /* Paleta principal (ajustada a partir das imagens fornecidas) */
+  --brand-900: #243f48;      /* azul escuro / texto principal (substitui azul-noite) */
+  --brand-700: #2f606b;
+  --brand-500: #14B1E7;      /* azul dia / acento primário (já existente) */
+  --brand-300: #64e6ff;      /* acento claro (para highlights) */
+
+  /* Neutros */
+  --bg-body: #f4f6f9;        /* fundo da aplicação */
+  --surface: #ffffff;        /* cards, painéis */
+  --muted: #64748b;         /* textos secundários */
+  --text: #0f1720;          /* texto principal */
+
+  /* Semantic */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger:  #ef4444;
+
+  /* Layout */
+  --sidebar-width: 250px;
+  --border-radius: 10px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+  --shadow-md: 0 8px 24px rgba(16,24,40,0.08);
+
+  /* Logo paths (apenas conveniência — não lida pelo CSS como variável de URL em todas as plataformas,
+     usamos essas strings apenas como documentação/guia; use <img> com os arquivos abaixo) */
+  --logo-full: "static/img/supersonic-logo.svg";
+  --logo-full-white: "static/img/supersonic-logo-white.svg";
+  --logo-mark-cyan: "static/img/supersonic-mark-cyan.svg";
+}
+
+/* ========================================================================== */
+/* RESET E BASES */
+/* ========================================================================== */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: "Avenir Next", "Avenir", Helvetica, Arial, sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   THEMES: utilitários para contextos de cor (útil para sidebar / header)
+   - adicionar .theme-dark ao body para mudar rapidamente a interpretação de cores
+   - adicionar .theme-light se desejar forçar a variação clara
+   ========================================================================== */
+.theme-dark {
+  --bg-body: #122427;
+  --surface: #18333a;
+  --text: #ffffff;
+  --muted: #a8bcc3;
+  --brand-500: #4ae2ff; /* acento mais brilhante em dark */
+}
+
+
+/* ========================================================================== */
+/* SIDEBAR / BRAND (LOGO) */
+/* ========================================================================== */
+
+/* Estrutura da área do logo na sidebar */
+.sidebar-logo-container {
+  width: 100%;
+  height: 92px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+/* Imagem do logotipo principal (horizontal) */
+.brand-logo {
+  display: inline-block;
+  vertical-align: middle;
+  height: 48px;              /* ajuste padrão — troque conforme necessidade */
+  width: auto;
+}
+
+/* Variante para fundos escuros (geralmente usamos a versão branca do logotipo) */
+.brand-logo--white {
+  filter: none;
+  /* Espera-se um arquivo já em branco, ex: supersonic-logo-white.svg */
+}
+
+/* Marca (somente o símbolo/mark) — utilizado quando precisa de espaço reduzido */
+.brand-mark {
+  display: inline-block;
+  height: 40px;
+  width:auto;
+}
+
+/* Classe utilitária para exibir só a marca (útil em sidebar colapsada) */
+.brand-only .brand-logo { display: none; }
+.brand-only .brand-mark { display: inline-block; }
+
+/* ========================================================================== */
+/* SIDEBAR / BRAND (LOGO) */
+/* ========================================================================== */
+
+/* ===== Ajustes de Layout: Sidebar sempre visível em desktop, off-canvas mobile ===== */
+
+/* Força comportamento de container: sidebar + conteúdo */
+.app-root {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+}
+
+/* Garante que o container do sidebar (injetado) seja visível e posicionado corretamente */
+#sidebar-container > .sidebar,
+.sidebar {
+  /* faz sidebar ocupar a coluna da grid em desktop */
+  position: relative; /* relativo dentro do grid */
+  width: var(--sidebar-width);
+  height: 100vh;
+  box-shadow: none;
+}
+
+/* Para garantir a leitura do conteúdo do main, fazemos o main usar o restante do grid */
+.main-content {
+  min-height: 100vh;
+  padding: 18px 24px;
+  box-sizing: border-box;
+  background: var(--bg-body);
+}
+
+/* Mobile: sidebar off-canvas */
+@media (max-width: 900px) {
+  .app-root {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: fixed;
+    left: -320px; /* escondida por padrão */
+    top: 0;
+    z-index: 1200;
+    transition: left .22s ease;
+    box-shadow: var(--shadow-md);
+  }
+  body.sidebar-open .sidebar {
+    left: 0;
+  }
+  .main-content {
+    padding: 12px;
+  }
+}
+
+/* =========================================================================== */
+/* Ajustes de Layout: Sidebar sempre visível em desktop, off-canvas mobile 
+/* ============================================================================ */
+
+
+/* Força comportamento de container: sidebar + conteúdo */
+.app-root {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+}
+
+/* Garante que o container do sidebar (injetado) seja visível e posicionado corretamente */
+#sidebar-container > .sidebar,
+.sidebar {
+  /* faz sidebar ocupar a coluna da grid em desktop */
+  position: relative; /* relativo dentro do grid */
+  width: var(--sidebar-width);
+  height: 100vh;
+  box-shadow: none;
+}
+
+/* Para garantir a leitura do conteúdo do main, fazemos o main usar o restante do grid */
+.main-content {
+  min-height: 100vh;
+  padding: 18px 24px;
+  box-sizing: border-box;
+  background: var(--bg-body);
+}
+
+/* Mobile: sidebar off-canvas */
+@media (max-width: 900px) {
+  .app-root {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: fixed;
+    left: -320px; /* escondida por padrão */
+    top: 0;
+    z-index: 1200;
+    transition: left .22s ease;
+    box-shadow: var(--shadow-md);
+  }
+  body.sidebar-open .sidebar {
+    left: 0;
+  }
+  .main-content {
+    padding: 12px;
+  }
+}
+/* Quando o layout não usa grid (compatibilidade), garantir margens */
+@supports not (grid-template-columns: var(--sidebar-width) 1fr) {
+  body { display: flex; }
+  .sidebar { flex: 0 0 var(--sidebar-width); }
+  .main-content { flex: 1 1 auto; }
+}
+
+
+/* ========================================================================== */
+/* HEADER / TOPBAR — usa a paleta principal para elementos de destaque */
+/* ========================================================================== */
+.topbar {
+  height: 64px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 16px;
+  box-shadow: var(--shadow-sm);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  grid-column: 2 / -1;
+}
+
+/* Botões / acentos */
+.btn-primary {
+  background: linear-gradient(90deg, var(--brand-500), var(--brand-300));
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(15,23,32,0.06);
+  color: var(--text);
+}
+
+/* ========================================================================== */
+/* UTILITÁRIOS PARA APLICAÇÃO DO LOGO EM DIFERENTES CONTEXTOS
+   - .logo-on-dark  -> usar variante branca
+   - .logo-on-light -> usar variante colorida (default)
+   ========================================================================== */
+.logo-on-dark img { display: block; }
+.logo-on-dark img.logo-color { display: none; } /* garantir que a versão colorida fique escondida */
+
+.logo-on-light img.logo-white { display: none; } /* esconder versão branca em plano claro */
+
+/* Quando o body tem .theme-dark, força o comportamento */
+.theme-dark .logo-on-dark img.logo-color { display: none; }
+.theme-dark .logo-on-dark img.logo-white { display: block; }
+
+/* ========================================================================== */
+/* Acessibilidade: tamanhos alternativos, foco e contraste (padrão)
+   - garantir foco visível em elementos interativos
+   ========================================================================== */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 3px solid rgba(20,177,231,0.18);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* ========================================================================== */
+/* EXTRAS: stickers, favicons, e placeholders para quando o logo não carregar
+   ========================================================================== */
+.logo-placeholder {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--brand-700), var(--brand-900));
+  color: white;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+/* ========================================================================== */
+/* Exemplo de responsividade para a área do logo (reduz em telas pequenas) */
+/* ========================================================================== */
+@media (max-width: 900px) {
+  .sidebar-logo-container { height: 72px; padding: 10px; }
+  .brand-logo { height: 40px; }
+  .brand-mark { height: 34px; }
+}
+
+/* ===== Centralização e largura do conteúdo principal ===== */
+.container {
+  max-width: 1100px; /* largura ideal para desktop */
+  margin: 0 auto;    /* centraliza a área principal */
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+/* Ajustes para o conteúdo dentro do main — evita que todo o main fique colado na esquerda */
+.main-content .container {
+  padding-top: 22px;
+  padding-bottom: 40px;
+}
+
+/* Cards e widgets ficam fluidos porém limitados pela container */
+.cards, .widgets {
+  max-width: 100%;
+}
+
+/* Força header para ocupar a área de conteúdo (não da sidebar) em telas grandes */
+@media (min-width: 901px) {
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: calc(100% - var(--sidebar-width));
+    margin-left: var(--sidebar-width);
+  }
+}
+
+/* Acessibilidade e foco visível (padrão) */
+a:focus, button:focus { outline: 3px solid rgba(20,177,231,0.18); outline-offset: 2px; }

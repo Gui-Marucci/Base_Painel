@@ -1,214 +1,214 @@
-/* geral.css — padrão de cores e logos
-   Variáveis e classes para padronizar identidade visual (SUPesRSONIC-like)
-   Use este arquivo como referência principal para cores e para a integração dos logos.
+/* static/css/base.css
+   Estilos base e variáveis do projeto.
+   - Variáveis :root definidas para fácil customização.
+   - Reset leve para consistência.
+   - Inclui estilização base para header, botões e sidebar (versão básica).
 */
 
-/* ========================================================================== */
-/* VARIÁVEIS GLOBAIS (PALETA) */
-/* ========================================================================== */
-:root {
-  /* Paleta principal (ajustada a partir das imagens fornecidas) */
-  --brand-900: #243f48; /* azul escuro / texto principal (substitui azul-noite) */
-  --brand-700: #2f606b;
-  --brand-500: #14b1e7; /* azul dia / acento primário (já existente) */
-  --brand-300: #64e6ff; /* acento claro (para highlights) */
-
-  /* Neutros */
-  --bg-body: #f4f6f9; /* fundo da aplicação */
-  --surface: #ffffff; /* cards, painéis */
-  --muted: #64748b; /* textos secundários */
-  --text: #0f1720; /* texto principal */
-
-  /* Semantic */
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-
-  /* Layout */
-  --sidebar-width: 250px;
-  --border-radius: 10px;
-  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 8px 24px rgba(16, 24, 40, 0.08);
-
-  /* Logo paths (apenas conveniência — não lida pelo CSS como variável de URL em todas as plataformas,
-     usamos essas strings apenas como documentação/guia; use <img> com os arquivos abaixo) */
-  --logo-full: "static/img/supersonic-logo.svg";
-  --logo-full-white: "static/img/supersonic-logo-white.svg";
-  --logo-mark-cyan: "static/img/supersonic-mark-cyan.svg";
+/* Variáveis de tema — ajuste conforme identidade visual de referência */
+:root{
+  --cor-principal: #2a6f97;       /* azul principal (inspirado) */
+  --cor-secundaria: #f5f8fa;     /* fundo suave */
+  --cor-acento: #ffb454;         /* acento / destaque */
+  --cor-texto: #1f2933;
+  --cor-muted: #6b7280;
+  --sidebar-width: 260px;
+  --border-radius: 8px;
+  --gap: 1rem;
+  --max-content-width: 1200px;
+  --elevation-1: 0 1px 4px rgba(16,24,40,0.06);
+  --elevation-2: 0 6px 18px rgba(16,24,40,0.08);
+  --focus-ring: 3px solid rgba(42,111,151,0.15);
 }
 
-/* ========================================================================== */
-/* RESET E BASES */
-/* ========================================================================== */
-* {
-  box-sizing: border-box;
-}
-html,
-body {
-  height: 100%;
-}
+/* Reset mínimo */
+* { box-sizing: border-box; }
+html,body { height: 100%; }
 body {
   margin: 0;
-  font-family: "Avenir Next", "Avenir", Helvetica, Arial, sans-serif;
-  background-color: var(--bg-body);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: var(--cor-texto);
+  background: var(--cor-secundaria);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height: 1.4;
 }
 
-/* ==========================================================================
-   THEMES: utilitários para contextos de cor (útil para sidebar / header)
-   - adicionar .theme-dark ao body para mudar rapidamente a interpretação de cores
-   - adicionar .theme-light se desejar forçar a variação clara
-   ========================================================================== */
-.theme-dark {
-  --bg-body: #122427;
-  --surface: #18333a;
-  --text: #ffffff;
-  --muted: #a8bcc3;
-  --brand-500: #4ae2ff; /* acento mais brilhante em dark */
+/* Containers */
+.container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
-/* ========================================================================== */
-/* SIDEBAR / BRAND (LOGO) */
-/* ========================================================================== */
-
-/* Estrutura da área do logo na sidebar */
-.sidebar-logo-container {
-  width: 100%;
-  height: 92px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  box-sizing: border-box;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+/* App root layout (sidebar + main) */
+.app-root {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
 }
 
-/* Imagem do logotipo principal (horizontal) */
-.brand-logo {
-  display: inline-block;
-  vertical-align: middle;
-  height: 48px; /* ajuste padrão — troque conforme necessidade */
-  width: auto;
-}
-
-/* Variante para fundos escuros (geralmente usamos a versão branca do logotipo) */
-.brand-logo--white {
-  filter: none;
-  /* Espera-se um arquivo já em branco, ex: supersonic-logo-white.svg */
-}
-
-/* Marca (somente o símbolo/mark) — utilizado quando precisa de espaço reduzido */
-.brand-mark {
-  display: inline-block;
-  height: 40px;
-  width: auto;
-}
-
-/* Classe utilitária para exibir só a marca (útil em sidebar colapsada) */
-.brand-only .brand-logo {
-  display: none;
-}
-.brand-only .brand-mark {
-  display: inline-block;
-}
-
-/* ========================================================================== */
-/* HEADER / TOPBAR — usa a paleta principal para elementos de destaque */
-/* ========================================================================== */
+/* Topbar */
 .topbar {
-  height: 64px;
-  background: var(--surface);
+  grid-column: 2 / -1;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0 16px;
-  box-shadow: var(--shadow-sm);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  gap: var(--gap);
+  padding: 0.75rem 1rem;
+  background: #fff;
+  border-bottom: 1px solid rgba(16,24,40,0.04);
+  box-shadow: var(--elevation-1);
+  position: sticky;
+  top: 0;
+  z-index: 40;
 }
 
-/* Botões / acentos */
-.btn-primary {
-  background: linear-gradient(90deg, var(--brand-500), var(--brand-300));
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
+/* Brand */
+.brand {
+  display:flex;
+  gap:0.75rem;
+  align-items:center;
 }
+.brand .logo { display:block; border-radius:6px; }
+.system-title {
+  margin:0; font-size:1rem; line-height:1; font-weight:600;
+}
+.tagline { margin:0; color:var(--cor-muted); font-size:0.85rem; }
+
+/* Buttons */
+.btn {
+  background: var(--cor-principal);
+  color: #fff;
+  border: none;
+  padding: 0.45rem 0.7rem;
+  border-radius: 6px;
+  cursor:pointer;
+  font-size:0.95rem;
+}
+.btn:focus { outline: none; box-shadow: var(--focus-ring); }
 .btn-ghost {
   background: transparent;
-  border: 1px solid rgba(15, 23, 32, 0.06);
-  color: var(--text);
+  color: var(--cor-texto);
+  border: 1px solid rgba(16,24,40,0.06);
 }
-
-/* ========================================================================== */
-/* UTILITÁRIOS PARA APLICAÇÃO DO LOGO EM DIFERENTES CONTEXTOS
-   - .logo-on-dark  -> usar variante branca
-   - .logo-on-light -> usar variante colorida (default)
-   ========================================================================== */
-.logo-on-dark img {
-  display: block;
-}
-.logo-on-dark img.logo-color {
-  display: none;
-} /* garantir que a versão colorida fique escondida */
-
-.logo-on-light img.logo-white {
-  display: none;
-} /* esconder versão branca em plano claro */
-
-/* Quando o body tem .theme-dark, força o comportamento */
-.theme-dark .logo-on-dark img.logo-color {
-  display: none;
-}
-.theme-dark .logo-on-dark img.logo-white {
-  display: block;
-}
-
-/* ========================================================================== */
-/* Acessibilidade: tamanhos alternativos, foco e contraste (padrão)
-   - garantir foco visível em elementos interativos
-   ========================================================================== */
-:focus {
-  outline: none;
-}
-:focus-visible {
-  outline: 3px solid rgba(20, 177, 231, 0.18);
-  outline-offset: 2px;
+.btn-icon {
+  background: transparent;
   border-radius: 6px;
+  padding: 0.35rem;
 }
 
-/* ========================================================================== */
-/* EXTRAS: stickers, favicons, e placeholders para quando o logo não carregar
-   ========================================================================== */
-.logo-placeholder {
-  width: 48px;
-  height: 48px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, var(--brand-700), var(--brand-900));
-  color: white;
-  border-radius: 8px;
-  font-weight: 700;
+/* Sidebar (basic look; mobile behavior controlled by body classes) */
+.sidebar {
+  background: #fff;
+  padding: 1rem;
+  border-right: 1px solid rgba(16,24,40,0.04);
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  box-shadow: var(--elevation-1);
 }
 
-/* ========================================================================== */
-/* Exemplo de responsividade para a área do logo (reduz em telas pequenas) */
-/* ========================================================================== */
+/* Sidebar header */
+.sidebar-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:0.5rem;
+  margin-bottom: 1rem;
+}
+.sidebar-brand { display:flex; gap:0.5rem; align-items:center; }
+.sidebar-logo { border-radius:6px; }
+
+/* Sections */
+.sidebar-section { margin-bottom: 0.75rem; }
+.sidebar-section-title { font-size:0.75rem; color:var(--cor-muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.04em; }
+
+/* Nav links */
+.sidebar-nav ul { list-style:none; padding:0; margin:0; }
+.nav-link {
+  display:block;
+  text-decoration:none;
+  color:var(--cor-texto);
+  padding:0.5rem 0.4rem;
+  border-radius:6px;
+}
+.nav-link:hover, .nav-link:focus { background: rgba(42,111,151,0.06); outline:none; }
+.nav-link.active {
+  background: linear-gradient(90deg, rgba(42,111,151,0.08), rgba(42,111,151,0.03));
+  color: var(--cor-principal);
+  font-weight:600;
+}
+
+/* Submenu basic */
+.submenu { padding-left: 0.5rem; }
+.submenu-toggle { background: transparent; border: none; cursor: pointer; padding: 0.4rem; color:var(--cor-texto); border-radius:6px; }
+.submenu-toggle[aria-expanded="true"] { font-weight:600; color:var(--cor-principal); }
+
+/* Footer */
+.sidebar-footer { margin-top: 1.5rem; font-size:0.85rem; color:var(--cor-muted); }
+
+/* Main content */
+.main-content {
+  background: transparent;
+  padding: 1.25rem;
+}
+
+/* Widgets */
+.widgets {
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.widget {
+  background:#fff;
+  padding:0.75rem 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--elevation-1);
+  min-width: 160px;
+  flex: 1 1 180px;
+}
+
+/* Cards */
+.cards {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.card {
+  display:block;
+  background:#fff;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  text-decoration:none;
+  color:inherit;
+  box-shadow: var(--elevation-1);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--elevation-2); }
+.card-header h3 { margin:0 0 0.25rem 0; }
+.card-sub { margin:0; color:var(--cor-muted); font-size:0.9rem; }
+
+/* Footer muted text */
+.muted { color: var(--cor-muted); font-size:0.9rem; }
+
+/* No-JS warning */
+.no-js-warning { background: #fff3cd; color:#664d03; padding:0.75rem; border-radius:6px; margin:1rem; }
+
+/* Small screens: make sidebar off-canvas */
 @media (max-width: 900px) {
-  .sidebar-logo-container {
-    height: 72px;
-    padding: 10px;
-  }
-  .brand-logo {
-    height: 40px;
-  }
-  .brand-mark {
-    height: 34px;
-  }
+  .app-root { grid-template-columns: 1fr; }
+  .sidebar { position: fixed; left: -320px; top: 0; width: calc(var(--sidebar-width)); height: 100vh; transition: left .22s ease; z-index: 80; }
+  body.sidebar-open .sidebar { left: 0; }
+  .sidebar-close { display:inline-flex; }
+  .topbar { grid-column: 1 / -1; }
 }
+
+/* Focus-visible for keyboard users */
+:focus:not(:focus-visible) { outline: none; box-shadow: none; }
+:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* Utility */
+.hidden { display: none !important; }

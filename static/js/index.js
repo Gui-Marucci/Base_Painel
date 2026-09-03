@@ -1,13 +1,7 @@
-/* static/js/index.js
-   Script da index:
-   - Inicializa indicadores básicos tentando carregar data/*.json via fetch
-   - Fornece feedback visual (carregando / erro)
-   - Conecta-se com a API da sidebar via toggle (garante sincronia de aria-expanded)
-   - Comentários explicam pontos de extensão para trocar JSON por API
-*/
+// static/js/index.js (versão robusta)
+// Substitua o arquivo atual por este. Ele tenta múltiplos caminhos e valida a resposta JSON antes do parse.
 
 (function () {
-  // IDs dos indicadores presentes no index.html
   const IDS = {
     previsao: 'indicator-previsao',
     orcamentos: 'indicator-orcamentos',
@@ -17,64 +11,113 @@
     widgetRecibosHoje: 'widget-recibos-hoje'
   };
 
-  // Função utilitária para escrever valor em elemento por ID
   function setText(id, text) {
     const el = document.getElementById(id);
     if (el) el.textContent = text;
   }
 
-  // Tenta carregar JSONs de exemplo; se falhar, deixa placeholders
+  // monta candidatos resolvendo em relação a várias bases (document.baseURI, origin, current dir)
+  function makeCandidates(filename) {
+    const bases = [
+      document.baseURI,
+      window.location.origin + '/',
+      window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/')
+    ];
+    const candidates = new Set();
+    bases.forEach(b => {
+      try { candidates.add(new URL(filename, b).href); } catch(e){}
+      try { candidates.add(new URL('../' + filename, b).href); } catch(e){}
+      try { candidates.add(new URL('../../' + filename, b).href); } catch(e){}
+      try { candidates.add(new URL('/' + filename, b).href); } catch(e){}
+    });
+    return Array.from(candidates);
+  }
+
+  // tenta os paths em sequência e retorna o primeiro Response.ok
+  async function fetchFirstJson(paths) {
+    for (const p of paths) {
+      try {
+        console.debug('index.js: tentando', p);
+        const res = await fetch(p, { cache: 'no-store' });
+        if (!res) {
+          console.warn('index.js: resposta vazia para', p);
+          continue;
+        }
+        if (!res.ok) {
+          console.warn('index.js: status não OK para', p, res.status);
+          continue;
+        }
+        const contentType = res.headers.get('content-type') || '';
+        const text = await res.text(); // ler como texto primeiro para validar
+        if (!text || text.trim().length === 0) {
+          console.warn('index.js: resposta vazia para', p);
+          continue;
+        }
+        if (!contentType.includes('application/json') && !text.trim().startsWith('{') && !text.trim().startsWith('[')) {
+          console.warn('index.js: conteúdo não parece JSON para', p, 'content-type=', contentType);
+          // ainda tentamos parsear se for algo que parece JSON
+        }
+        try {
+          const json = JSON.parse(text);
+          console.debug('index.js: parse JSON OK em', p);
+          return json;
+        } catch (parseErr) {
+          console.warn('index.js: falha ao parsear JSON de', p, parseErr);
+          continue;
+        }
+      } catch (fetchErr) {
+        console.warn('index.js: erro ao fetch', p, fetchErr);
+        continue;
+      }
+    }
+    throw new Error('Nenhum dos paths retornou JSON válido');
+  }
+
   async function loadIndicators() {
-    // Previsoes: somatória mínima de valores previstos (mock)
+    const previsaoCandidates = makeCandidates('data/previsoes.json');
+    const orcamentosCandidates = makeCandidates('data/orcamentos.json');
+    const recibosCandidates = makeCandidates('data/recibos.json');
+
+    // PREVISÕES
     try {
-      const res = await fetch('/data/previsoes.json', { cache: 'no-store' });
-      if (!res.ok) throw new Error('previsoes.json não encontrado');
-      const data = await res.json();
-      // Exemplo simples: somar campo valorPrevisto
-      const total = (data || []).reduce((s, item) => s + (Number(item.valorPrevisto) || 0), 0);
+      const data = await fetchFirstJson(previsaoCandidates);
+      const total = (Array.isArray(data) ? data : []).reduce((s, item) => s + (Number(item.valorPrevisto) || 0), 0);
       setText(IDS.previsao, total > 0 ? `R$ ${total.toLocaleString('pt-BR')}` : 'R$ 0,00');
       setText(IDS.widgetPrevisto, total > 0 ? `R$ ${total.toLocaleString('pt-BR')}` : 'R$ 0,00');
     } catch (err) {
-      // Estado vazio / TODO: conectar API real
       setText(IDS.previsao, '—');
       setText(IDS.widgetPrevisto, '—');
-      console.info('index.js: previsoes.json não disponível (ainda em mock).', err);
+      console.info('index.js: previsoes.json não disponível (mock).', err);
     }
 
-    // Orcamentos: contar itens
+    // ORÇAMENTOS
     try {
-      const res = await fetch('/data/orcamentos.json', { cache: 'no-store' });
-      if (!res.ok) throw new Error('orcamentos.json não encontrado');
-      const data = await res.json();
-      setText(IDS.orcamentos, (data || []).length || '—');
-      setText(IDS.widgetOrcamentos, (data || []).length || '—');
+      const data = await fetchFirstJson(orcamentosCandidates);
+      setText(IDS.orcamentos, (Array.isArray(data) ? data.length : 0) || '—');
+      setText(IDS.widgetOrcamentos, (Array.isArray(data) ? data.length : 0) || '—');
     } catch (err) {
       setText(IDS.orcamentos, '—');
       setText(IDS.widgetOrcamentos, '—');
-      console.info('index.js: orcamentos.json não disponível (ainda em mock).', err);
+      console.info('index.js: orcamentos.json não disponível (mock).', err);
     }
 
-    // Recibos: filtrar por data de hoje (mock)
+    // RECIBOS
     try {
-      const res = await fetch('/data/recibos.json', { cache: 'no-store' });
-      if (!res.ok) throw new Error('recibos.json não encontrado');
-      const data = await res.json();
-      const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-      const hojeCount = (data || []).filter(r => (r.data || '').startsWith(today)).length;
+      const data = await fetchFirstJson(recibosCandidates);
+      const today = new Date().toISOString().slice(0, 10);
+      const hojeCount = (Array.isArray(data) ? data.filter(r => (r.data || '').startsWith(today)).length : 0);
       setText(IDS.recibos, hojeCount || '0');
       setText(IDS.widgetRecibosHoje, hojeCount || '0');
     } catch (err) {
       setText(IDS.recibos, '—');
       setText(IDS.widgetRecibosHoje, '—');
-      console.info('index.js: recibos.json não disponível (ainda em mock).', err);
+      console.info('index.js: recibos.json não disponível (mock).', err);
     }
   }
 
-  // Sincroniza o estado do botão toggle se a sidebar for aberta manualmente (por sidebar.js)
   function syncSidebarToggle() {
     const toggle = document.getElementById('sidebar-toggle');
     if (!toggle) return;
-    // observar mudanças na class do body para atualizar aria-expanded
     const obs = new MutationObserver(() => {
       const open = document.body.classList.contains('sidebar-open');
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -82,23 +125,16 @@
     obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
   }
 
-  // Inicialização quando DOM pronto
   function init() {
     loadIndicators();
     syncSidebarToggle();
-
-    // Exemplo de feedback: anima botão quando clicar em um card
     document.querySelectorAll('.card').forEach(card => {
       card.addEventListener('click', (ev) => {
-        // For accessibility: se o click foi por tecla, permit default; se for link, deixa o navegador navegar.
-        // Adicionamos uma classe temporária para efeito visual.
         card.classList.add('card-activated');
         setTimeout(() => card.classList.remove('card-activated'), 300);
       });
     });
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

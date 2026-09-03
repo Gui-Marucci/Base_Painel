@@ -9,19 +9,15 @@
       content="Protótipo modular do ERP Gestão de Materiais — hub inicial."
     />
 
-    <!-- Estilos base e específicos da index (serão criados em static/css/) -->
+    <!-- Estilos base e específicos da index (certifique-se de incluir geral.css no projeto) -->
     <link rel="stylesheet" href="../static/css/base.css" />
     <link rel="stylesheet" href="../static/css/index.css" />
+    <link rel="stylesheet" href="../static/css/geral.css" />
 
-    <!-- Ícone/brand (opcional — adicionável posteriormente) -->
+    <!-- Ícone/brand (opcional) -->
     <!-- <link rel="icon" href="static/img/favicon.svg"> -->
   </head>
   <body>
-    <!--
-    Estrutura principal:
-    - A Sidebar é carregada dinamicamente dentro de #sidebar-container por static/js/sidebar.js (fetch).
-    - Não duplicar HTML da sidebar em outras páginas — usar apenas este container.
-  -->
     <div id="sidebar-container" aria-hidden="true"></div>
 
     <div id="app" class="app-root">
@@ -36,26 +32,41 @@
           <span aria-hidden="true">☰</span>
         </button>
 
+        <!-- Brand: contém ambas variantes do logotipo (color + white) e o mark -->
+        <!-- Brand: contém ambas variantes do logotipo (color + white) e o mark -->
         <div
-          class="brand"
+          class="brand logo-on-light"
           id="brand"
           role="region"
           aria-label="Identidade do sistema"
         >
-          <!-- Logo é referencial; o arquivo pode ser adicionado em static/img/ -->
+          <!-- Versão colorida / padrão (para fundos claros) -->
           <img
-            src="static/img/Logo_01.svg"
-            alt="Logotipo ERP Gestão de Materiais"
-            class="logo"
-            width="40"
-            height="40"
+            src="../static/img/Logo-01.svg"
+            alt="Supersonic — ERP Gestão de Materiais"
+            class="brand-logo logo-color"
+            width="220"
+            height="48"
           />
-          <div class="brand-text">
-            <h1 class="system-title">ERP Gestão de Materiais</h1>
-            <p class="tagline">
-              Protótipo modular — desenvolvimento incremental (RAD)
-            </p>
-          </div>
+
+          <!-- Versão branca (para fundos escuros). Será ocultada por default e exibida via logo.js quando necessário -->
+          <img
+            src="../static/img/Logo-05.svg"
+            alt="Supersonic — ERP (branco)"
+            class="brand-logo logo-white"
+            width="220"
+            height="48"
+            style="display: none"
+          />
+
+          <!-- Marca (opcional) - usada para avatars e espaços reduzidos -->
+          <img
+            src="../static/img/supersonic-mark.svg"
+            alt="Marca Supersonic"
+            class="brand-mark"
+            width="48"
+            height="48"
+          />
         </div>
 
         <div class="top-actions" role="navigation" aria-label="Ações rápidas">
@@ -64,9 +75,7 @@
             class="notifications"
             aria-live="polite"
             aria-atomic="true"
-          >
-            <!-- Área preparada para notificações futuras; conteúdo será atualizado pelo JS -->
-          </div>
+          ></div>
           <a
             href="#"
             id="shortcut-help"
@@ -95,7 +104,7 @@
               <a
                 role="listitem"
                 class="card"
-                href="pages/previsao.html"
+                href="../pages/previsao.html"
                 id="card-previsao"
               >
                 <div class="card-header">
@@ -115,7 +124,7 @@
               <a
                 role="listitem"
                 class="card"
-                href="pages/orcamentos.html"
+                href="../pages/orcamentos.html"
                 id="card-orcamentos"
               >
                 <div class="card-header">
@@ -137,7 +146,7 @@
               <a
                 role="listitem"
                 class="card"
-                href="pages/recibos.html"
+                href="../pages/recibos.html"
                 id="card-recibos"
               >
                 <div class="card-header">
@@ -157,7 +166,6 @@
           </div>
         </section>
 
-        <!-- Indicadores resumidos preparados para integração futura -->
         <section class="overview" aria-labelledby="overview-title">
           <div class="container">
             <h3 id="overview-title">Indicadores rápidos</h3>
@@ -184,16 +192,15 @@
           </div>
         </section>
 
-        <!-- Espaço para conteúdo adicional / atalhos -->
         <section class="shortcuts" aria-labelledby="shortcuts-title">
           <div class="container">
             <h3 id="shortcuts-title">Atalhos</h3>
             <div class="shortcut-list">
-              <a class="shortcut" href="pages/previsao.html">Nova previsão</a>
-              <a class="shortcut" href="pages/orcamentos.html"
+              <a class="shortcut" href="../pages/previsao.html">Nova previsão</a>
+              <a class="shortcut" href="../pages/orcamentos.html"
                 >Novo orçamento</a
               >
-              <a class="shortcut" href="pages/recibos.html">Adicionar recibo</a>
+              <a class="shortcut" href="../pages/recibos.html">Adicionar recibo</a>
             </div>
           </div>
         </section>
@@ -213,7 +220,6 @@
       </main>
     </div>
 
-    <!-- Aviso para usuários sem JS -->
     <noscript>
       <div class="no-js-warning" role="alert">
         Este protótipo funciona melhor com JavaScript habilitado. Algumas partes
@@ -221,8 +227,9 @@
       </div>
     </noscript>
 
-    <!-- Scripts modulares (serão criados em static/js/) -->
+    <!-- Scripts modulares -->
     <script src="../static/js/sidebar.js" defer></script>
+    <script src="../static/js/logo.js" defer></script>
     <script src="../static/js/index.js" defer></script>
   </body>
 </html>

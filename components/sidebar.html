@@ -1,12 +1,31 @@
 <!-- components/sidebar.html -->
-<!--
-  Componente Sidebar independente:
-  - Carregado por fetch() em static/js/sidebar.js
-  - Estrutura preparada para categorias e submenus
-  - Não contém nenhum comportamento JS — tudo controlado por sidebar.js
--->
-<aside class="sidebar" role="navigation" aria-label="Navegação principal">
-  <div class="sidebar-header">
+<aside
+  class="sidebar logo-on-dark"
+  role="navigation"
+  aria-label="Navegação principal"
+>
+  <!-- Logo: colocamos a variante branca em destaque pois a sidebar é escura -->
+  <div class="sidebar-logo-container">
+    <!-- Versão branca do logotipo (para fundo escuro) -->
+    <img
+      src="../static/img/Logo-01.svg"
+      alt="Supersonic — ERP Gestão de Materiais"
+      class="brand-logo logo-white"
+      width="180"
+      height="40"
+    />
+    <!-- Marca pequena (mark-only), útil para compact view -->
+    <img
+      src="../static/img/supersonic-mark.svg"
+      alt="Marca Supersonic"
+      class="brand-mark"
+      width="40"
+      height="40"
+    />
+  </div>
+
+  <div class="sidebar-header" aria-hidden="true">
+    <!-- O botão de fechamento é controlado por sidebar.js no comportamento mobile -->
     <button
       id="sidebar-close"
       class="btn btn-icon sidebar-close"
@@ -14,62 +33,33 @@
     >
       <span aria-hidden="true">✕</span>
     </button>
-    <div class="sidebar-brand">
-      <!-- Logo de referência visual (adicione static/img/logo-sidebar.svg se desejar) -->
-      <img
-        src="static/img/logo.svg"
-        alt="Logo"
-        class="sidebar-logo"
-        width="36"
-        height="36"
-      />
-      <div class="sidebar-brand-text">
-        <strong>ERP Gestão de Materiais</strong>
-        <small>Protótipo modular</small>
-      </div>
-    </div>
   </div>
 
   <nav class="sidebar-nav" role="menu" aria-label="Menu principal">
-    <!-- INÍCIO -->
     <div class="sidebar-section" role="presentation">
       <div class="sidebar-section-title">INÍCIO</div>
       <ul>
         <li>
-          <a href="/index.html" data-path="/index.html" class="nav-link"
-            >Dashboard</a
-          >
-        </li>
-        <li>
-          <a href="/index.html" data-path="/index.html" class="nav-link"
-            >Visão Geral</a
+          <a href="../templates/index.html" data-path="/index.html" class="nav-link"
+            >Previsões</a
           >
         </li>
       </ul>
     </div>
 
-    <!-- PLANEJAMENTO -->
     <div class="sidebar-section">
       <div class="sidebar-section-title">PLANEJAMENTO</div>
       <ul>
-        <li>
-          <a
-            href="/pages/previsao.html"
-            data-path="/pages/previsao.html"
-            class="nav-link"
-            >Previsão de Gastos</a
-          >
-        </li>
+       
       </ul>
     </div>
 
-    <!-- COMPRAS -->
     <div class="sidebar-section">
       <div class="sidebar-section-title">COMPRAS</div>
       <ul>
         <li>
           <a
-            href="/pages/orcamentos.html"
+            href="../pages/orcamentos.html"
             data-path="/pages/orcamentos.html"
             class="nav-link"
             >Orçamentos</a
@@ -78,13 +68,12 @@
       </ul>
     </div>
 
-    <!-- DOCUMENTOS -->
     <div class="sidebar-section">
       <div class="sidebar-section-title">DOCUMENTOS</div>
       <ul>
         <li>
           <a
-            href="/pages/recibos.html"
+            href="../pages/recibos.html"
             data-path="/pages/recibos.html"
             class="nav-link"
             >Recibos</a
@@ -93,7 +82,6 @@
       </ul>
     </div>
 
-    <!-- Área de expansão futura (CADASTROS, MOVIMENTAÇÃO, RELATÓRIOS...) -->
     <div class="sidebar-section sidebar-future">
       <div class="sidebar-section-title">MAIS</div>
       <ul>
