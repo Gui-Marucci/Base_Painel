@@ -2,7 +2,6 @@
 // Atualizado para trabalhar com os SVGs que você providenciou:
 // - Logo_Supersonic-01.svg (color / header claro)
 // - Logo_Supersonic-05.svg (white / header/sidebar escuro)
-// - supersonic-mark.svg (mark-only)
 // O script respeita .logo-on-dark / .logo-on-light e body.theme-dark.
 
 (function () {

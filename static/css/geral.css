@@ -82,7 +82,7 @@ body {
   margin: 0;
   font-family: "Avenir Next", "Avenir", Helvetica, Arial, sans-serif;
   background-color: var(--bg-body);
-  color: var(--text);
+  color: var(--ss-azul-noite);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -105,7 +105,7 @@ body {
   --surface: #18333a;
   --text: #ffffff;
   --muted: #a8bcc3;
-  --brand-500: #4ae2ff; /* acento mais brilhante em dark */
+  --ss-azul-dia: #4ae2ff; /* acento mais brilhante em dark */
 }
 
 
@@ -170,104 +170,88 @@ Mostrar mais linhas
 /* SIDEBAR / BRAND (LOGO) */
 /* ========================================================================== */
 
-/* ===== Ajustes de Layout: Sidebar sempre visível em desktop, off-canvas mobile ===== */
-
-/* Força comportamento de container: sidebar + conteúdo */
-.app-root {
-  display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr;
-  min-height: 100vh;
-}
-
-/* Garante que o container do sidebar (injetado) seja visível e posicionado corretamente */
-#sidebar-container > .sidebar,
-.sidebar {
-  /* faz sidebar ocupar a coluna da grid em desktop */
-  position: relative; /* relativo dentro do grid */
-  width: var(--sidebar-width);
-  height: 100vh;
-  box-shadow: none;
-}
-
-/* Para garantir a leitura do conteúdo do main, fazemos o main usar o restante do grid */
-.main-content {
-  min-height: 100vh;
-  padding: 18px 24px;
-  box-sizing: border-box;
-  background: var(--bg-body);
-}
-
-/* Mobile: sidebar off-canvas */
-@media (max-width: 900px) {
-  .app-root {
-    grid-template-columns: 1fr;
-  }
-  .sidebar {
-    position: fixed;
-    left: -320px; /* escondida por padrão */
-    top: 0;
-    z-index: 1200;
-    transition: left .22s ease;
-    box-shadow: var(--shadow-md);
-  }
-  body.sidebar-open .sidebar {
-    left: 0;
-  }
-  .main-content {
-    padding: 12px;
-  }
-}
-
 /* =========================================================================== */
 /* Ajustes de Layout: Sidebar sempre visível em desktop, off-canvas mobile 
 /* ============================================================================ */
 
 
-/* Força comportamento de container: sidebar + conteúdo */
+/* ==========================================================
+   LAYOUT PRINCIPAL
+========================================================== */
+
+@media (min-width: 901px) {
+
+    .sidebar {
+        position: sticky;
+        top: 0;
+
+        width: var(--sidebar-width);
+        height: 100vh;
+
+        overflow-y: auto;
+    }
+}
+
 .app-root {
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr;
   min-height: 100vh;
 }
 
-/* Garante que o container do sidebar (injetado) seja visível e posicionado corretamente */
-#sidebar-container > .sidebar,
-.sidebar {
-  /* faz sidebar ocupar a coluna da grid em desktop */
-  position: relative; /* relativo dentro do grid */
+/* coluna da sidebar */
+#sidebar-container {
   width: var(--sidebar-width);
-  height: 100vh;
-  box-shadow: none;
 }
 
-/* Para garantir a leitura do conteúdo do main, fazemos o main usar o restante do grid */
+/* conteúdo principal */
 .main-content {
   min-height: 100vh;
-  padding: 18px 24px;
-  box-sizing: border-box;
   background: var(--bg-body);
+  padding: 24px;
 }
+
+/* estrutura header + conteúdo */
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 
 /* Mobile: sidebar off-canvas */
 @media (max-width: 900px) {
-  .app-root {
-    grid-template-columns: 1fr;
-  }
-  .sidebar {
-    position: fixed;
-    left: -320px; /* escondida por padrão */
-    top: 0;
-    z-index: 1200;
-    transition: left .22s ease;
-    box-shadow: var(--shadow-md);
-  }
-  body.sidebar-open .sidebar {
-    left: 0;
-  }
-  .main-content {
-    padding: 12px;
-  }
+
+    .app-root {
+        grid-template-columns: 1fr;
+    }
+
+    #sidebar-container {
+        width: 0;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+
+        width: var(--sidebar-width);
+        height: 100vh;
+
+        z-index: 1200;
+
+        transition: left .25s ease;
+        box-shadow: var(--shadow-md);
+    }
+
+    body.sidebar-open .sidebar {
+        left: 0;
+    }
+
+    .main-content {
+        padding: 16px;
+    }
 }
+
 /* Quando o layout não usa grid (compatibilidade), garantir margens */
 @supports not (grid-template-columns: var(--sidebar-width) 1fr) {
   body { display: flex; }
@@ -286,8 +270,19 @@ Mostrar mais linhas
 }
 
 .topbar {
-  background: var(--surface);
-  border-bottom: 3px solid var(--ss-azul-dia);
+    height: 64px;
+    background: var(--surface);
+    border-bottom: 3px solid var(--ss-azul-dia);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 16px;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 /* Botões / acentos */
@@ -303,7 +298,7 @@ Mostrar mais linhas
 .btn-ghost {
   background: transparent;
   border: 1px solid rgba(15,23,32,0.06);
-  color: var(--text);
+  color: var(--ss-azul-noite);
 }
 
 /* ========================================================================== */
@@ -340,7 +335,7 @@ Mostrar mais linhas
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, var(--brand-700), var(--brand-900));
+  background: linear-gradient(180deg, var(--ss-cinza), var(--ss-azul-noite));
   color: white;
   border-radius: 8px;
   font-weight: 700;
@@ -373,6 +368,10 @@ Mostrar mais linhas
 .cards, .widgets {
   max-width: 100%;
 }
+.widget {
+    background: white;
+    border-left: 5px solid var(--ss-azul-dia);
+}
 
 /* Força header para ocupar a área de conteúdo (não da sidebar) em telas grandes */
 @media (min-width: 901px) {
@@ -381,3 +380,25 @@ Mostrar mais linhas
 
 /* Acessibilidade e foco visível (padrão) */
 a:focus, button:focus { outline: 3px solid rgba(20,177,231,0.18); outline-offset: 2px; }
+
+/* ==================================================
+   DASHBOARD
+================================================== */
+
+.dashboard-grid {
+    display: grid;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.dashboard-panel {
+    border-top: 3px solid var(--ss-azul-dia);
+    background: var(--surface);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.dashboard-panel h3 {
+    margin-top: 0;
+}

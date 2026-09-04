@@ -8,6 +8,8 @@
       name="description"
       content="Protótipo modular do ERP Gestão de Materiais — hub inicial."
     />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Estilos base e específicos da index (certifique-se de incluir geral.css no projeto) -->
     <link rel="stylesheet" href="../static/css/base.css" />
@@ -18,208 +20,150 @@
     <!-- <link rel="icon" href="static/img/favicon.svg"> -->
   </head>
   <body>
-    <body>
-<div id="app" class="app-root">
-<div id="sidebar-container"></div>
-<div class="content-wrapper">
+    <div id="app" class="app-root">
+      <div id="sidebar-container"></div>
+      <div class="content-wrapper">
         <header class="topbar">
-        <!-- Botão para abrir/fechar Sidebar em telas pequenas. sidebar.js deverá controlar aria-expanded. -->
-        <button
-          id="sidebar-toggle"
-          class="btn btn-icon"
-          aria-label="Abrir menu"
-          aria-expanded="false"
-        >
-          <span aria-hidden="true">☰</span>
-        </button>
-
-        <!-- Brand: contém ambas variantes do logotipo (color + white) e o mark -->
-        <!-- Brand: contém ambas variantes do logotipo (color + white) e o mark -->
-        <div
-          class="brand logo-on-light"
-          id="brand"
-          role="region"
-          aria-label="Identidade do sistema"
-        >
-          <!-- Versão colorida / padrão (para fundos claros) -->
-          <img
-            src="../static/img/Logo-01.svg"
-            alt="Supersonic — ERP Gestão de Materiais"
-            class="brand-logo logo-color"
-            width="220"
-            height="48"
-          />
-
-          <!-- Versão branca (para fundos escuros). Será ocultada por default e exibida via logo.js quando necessário -->
-          <img
-            src="../static/img/Logo-05.svg"
-            alt="Supersonic — ERP (branco)"
-            class="brand-logo logo-white"
-            width="220"
-            height="48"
-            style="display: none"
-          />
-
-          <!-- Marca (opcional) - usada para avatars e espaços reduzidos -->
-          <img
-            src="../static/img/supersonic-mark.svg"
-            alt="Marca Supersonic"
-            class="brand-mark"
-            width="48"
-            height="48"
-          />
-        </div>
-
-        <div class="top-actions" role="navigation" aria-label="Ações rápidas">
-          <div
-            id="notifications"
-            class="notifications"
-            aria-live="polite"
-            aria-atomic="true"
-          ></div>
-          <a
-            href="#"
-            id="shortcut-help"
-            class="btn btn-ghost"
-            aria-label="Ajuda"
-            >Ajuda</a
+          <!-- Botão para abrir/fechar Sidebar em telas pequenas. sidebar.js deverá controlar aria-expanded. -->
+          <button
+            id="sidebar-toggle"
+            class="btn btn-icon"
+            aria-label="Abrir menu"
+            aria-expanded="false"
           >
-          <button id="user-shortcut" class="btn" aria-label="Acesso ao usuário">
-            Minha Conta
+            <span aria-hidden="true">☰</span>
           </button>
-        </div>
-      </header>
 
-      <main id="main" class="main-content" role="main">
-        <!-- Introdução / resumo do sistema -->
-        <section class="hero" aria-labelledby="hero-title">
-          <div class="container">
-            <h2 id="hero-title">Bem-vindo ao ERP Gestão de Materiais</h2>
-            <p class="lead">
-              Página inicial e hub de navegação. Selecione um módulo abaixo para
-              começar.
-            </p>
+          <!-- Brand: contém ambas variantes do logotipo (color + white) e o mark -->
+          <!-- Brand: contém ambas variantes do logotipo (color + white) e o mark -->
+          <div
+            class="brand logo-on-light"
+            id="brand"
+            role="region"
+            aria-label="Identidade do sistema"
+          >
+            <!-- Versão colorida / padrão (para fundos claros) -->
+            <img
+              src="../static/img/Logo-01.svg"
+              alt="Supersonic — ERP Gestão de Materiais"
+              class="brand-logo logo-color"
+              width="220"
+              height="48"
+            />
 
-            <!-- Cards de acesso aos módulos (links para pages/*.html) -->
-            <div class="cards" role="list">
-              <a
-                role="listitem"
-                class="card"
-                href="../pages/previsao.html"
-                id="card-previsao"
-              >
-                <div class="card-header">
-                  <h3>Previsão de Gastos</h3>
-                  <p class="card-sub">Planejamento e acompanhamento</p>
-                </div>
-                <div class="card-body">
-                  <p class="card-note">
-                    Preparado para comparar PREVISTO × REALIZADO
-                  </p>
-                  <div class="card-indicators" aria-hidden="false">
-                    Previsto: <strong id="indicator-previsao">—</strong>
-                  </div>
-                </div>
-              </a>
-
-              <a
-                role="listitem"
-                class="card"
-                href="../pages/orcamentos.html"
-                id="card-orcamentos"
-              >
-                <div class="card-header">
-                  <h3>Orçamentos</h3>
-                  <p class="card-sub">
-                    Cotações e comparativos de fornecedores
-                  </p>
-                </div>
-                <div class="card-body">
-                  <p class="card-note">
-                    Cards para comparação futura (preço, prazo, condição)
-                  </p>
-                  <div class="card-indicators">
-                    Último: <strong id="indicator-orcamentos">—</strong>
-                  </div>
-                </div>
-              </a>
-
-              <a
-                role="listitem"
-                class="card"
-                href="../pages/recibos.html"
-                id="card-recibos"
-              >
-                <div class="card-header">
-                  <h3>Recibos</h3>
-                  <p class="card-sub">Documentos e comprovantes</p>
-                </div>
-                <div class="card-body">
-                  <p class="card-note">
-                    Consulta, filtros e visualização de recibos
-                  </p>
-                  <div class="card-indicators">
-                    Pendentes: <strong id="indicator-recibos">—</strong>
-                  </div>
-                </div>
-              </a>
-            </div>
+            <!-- Versão branca (para fundos escuros). Será ocultada por default e exibida via logo.js quando necessário -->
+            <img
+              src="../static/img/Logo-05.svg"
+              alt="Supersonic — ERP (branco)"
+              class="brand-logo logo-white"
+              width="220"
+              height="48"
+              style="display: none"
+            />
           </div>
-        </section>
 
-        <section class="overview" aria-labelledby="overview-title">
-          <div class="container">
-            <h3 id="overview-title">Indicadores rápidos</h3>
+          <div class="top-actions" role="navigation" aria-label="Ações rápidas">
             <div
-              class="widgets"
-              role="region"
-              aria-label="Indicadores do sistema"
+              id="notifications"
+              class="notifications"
+              aria-live="polite"
+              aria-atomic="true"
+            ></div>
+            <a
+              href="#"
+              id="shortcut-help"
+              class="btn btn-ghost"
+              aria-label="Ajuda"
+              >Ajuda</a
             >
-              <div class="widget" tabindex="0">
-                <span class="widget-title">Total Previsto</span>
-                <span class="widget-value" id="widget-total-previsto"
-                  >R$ —</span
+            <button
+              id="user-shortcut"
+              class="btn"
+              aria-label="Acesso ao usuário"
+            >
+              Minha Conta
+            </button>
+          </div>
+        </header>
+        <main id="main" class="main-content" role="main">
+          <!-- Introdução / resumo do sistema -->
+          <!--Kpis-->
+          <section class="dashboard-kpis">
+            <div class="container">
+              <h2>Bem-vindo à gestão de previsões</h2>
+
+              <p class="lead">
+                Faça upload da planilha de acordo com o
+                <a
+                  href="../core/uploads/base.xlsx"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
+                  modelo padrão
+                </a>
+                e acompanhe o comparativo.
+              </p>
+
+              <div class="dashboard-financeiro">
+                <h4>Resumo financeiro</h4>
               </div>
-              <div class="widget" tabindex="0">
-                <span class="widget-title">Orçamentos Ativos</span>
-                <span class="widget-value" id="widget-total-orcamentos">—</span>
-              </div>
-              <div class="widget" tabindex="0">
-                <span class="widget-title">Recibos Hoje</span>
-                <span class="widget-value" id="widget-recibos-hoje">—</span>
+
+              <div class="dashboard-panel">
+                <h3>Importação de Planilhas</h3>
+
+                <input type="file" accept=".xlsx,.xls,.csv" />
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section class="shortcuts" aria-labelledby="shortcuts-title">
-          <div class="container">
-            <h3 id="shortcuts-title">Atalhos</h3>
-            <div class="shortcut-list">
-              <a class="shortcut" href="../pages/previsao.html">Nova previsão</a>
-              <a class="shortcut" href="../pages/orcamentos.html"
-                >Novo orçamento</a
+          <section class="overview" aria-labelledby="overview-title">
+            <div class="container">
+              <h3 id="overview-title">Indicadores rápidos</h3>
+              <div
+                class="widgets"
+                role="region"
+                aria-label="Indicadores do sistema"
               >
-              <a class="shortcut" href="../pages/recibos.html">Adicionar recibo</a>
-            </div>
-          </div>
-        </section>
+                <div class="widget" tabindex="0">
+                  <span class="widget-title">Total Previsto</span>
+                  <span class="widget-value" id="widget-total-previsto"
+                    >R$ —</span
+                  >
+                </div>
 
-        <footer class="site-footer" role="contentinfo">
-          <div class="container">
-            <p class="muted">
-              Protótipo — ERP Gestão de Materiais • Implementação modular e
-              incremental.
-            </p>
-            <p class="muted">
-              Leia o <a href="README.md">README</a> para instruções de
-              desenvolvimento.
-            </p>
-          </div>
-        </footer>
-      </main>
+                <div class="widget" tabindex="0">
+                  <span class="widget-title">Orçamentos em aberto</span>
+                  <span class="widget-value" id="widget-total-orcamentos"
+                    >—</span
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="dashboard-grid">
+            <div class="dashboard-panel">Últimas movimentações</div>
+
+            <div class="dashboard-panel">Importação de planilhas</div>
+
+            <div class="dashboard-panel">Alertas</div>
+          </section>
+          <footer class="site-footer" role="contentinfo">
+            <div class="container">
+              <p class="muted">
+                Protótipo — Dashboard de previsões • Implementação modular e
+                incremental.
+              </p>
+              <p class="muted">
+                Leia o <a href="../README.md">README</a> para instruções de
+                desenvolvimento.
+              </p>
+            </div>
+          </footer>
+        </main>
+      </div>
+      <!--  content wrapper -->
     </div>
+    <!--  #app-root   -->
 
     <noscript>
       <div class="no-js-warning" role="alert">

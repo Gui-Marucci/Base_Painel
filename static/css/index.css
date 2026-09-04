@@ -3,14 +3,15 @@
 */
 
 /* Hero */
-.hero {
+/*.hero {
   padding: 1rem 0;
 }
 .hero .lead { color: var(--muted); margin-top: 0.5rem; }
+*/ 
 
 /* Card indicators and notes */
 .card-note { font-size:0.9rem; color:var(--muted); margin-bottom:0.5rem; }
-.card-indicators { margin-top:0.5rem; font-size:0.95rem; color:var(--text); }
+.card-indicators { margin-top:0.5rem; font-size:0.95rem; color:var(--ss-azul-dia); }
 
 /* Shortcuts */
 .shortcuts .shortcut-list { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.5rem; }
