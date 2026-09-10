@@ -34,3 +34,48 @@
 
   border-bottom: 1px solid #e5e7eb;
 }
+
+/* ==================================================
+                    PREVIEW
+================================================== */
+.preview-summary {
+  margin-bottom: 16px; 
+  color: var(--muted);
+  font-size: .95rem
+}
+
+/*======================================
+                CONTAINER
+  ======================================*/
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  padding: 16px;
+  margin-top: 20px;
+}
+/*======================================
+                TABELA  
+  ======================================*/
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+.data-table thead {
+  background: var(--ss-azul-noite);
+  color: white;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left; 
+
+}
+.data-table tbody tr:hover {
+  background: rgba(20,177,231,.05);
+}

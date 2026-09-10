@@ -6,25 +6,184 @@
    // Função para lidar com o upload de arquivos//
 //================================================== //
 
-const uploadInput = document.getElementById("planilha-upload");
-const uploadStatus = document.querySelector(".upload-status");
+const uploadInput =
+  document.getElementById("planilha-upload");
 
-if (uploadInput && uploadStatus) {
+const uploadStatus =
+  document.querySelector(".upload-status");
 
-  uploadInput.addEventListener("change",  (event) => {
+uploadInput?.addEventListener(
+  "change",
+  async (event) => {
 
-        const file =event.target.files[0];
+    const file =
+      event.target.files[0];
 
-        if(!file) {
-            uploadStatus.textContent = "Nennum arquivo selecionado";
-          return;
-        }
+    if (!file) {
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append(
+      "file",
+      file
+    );
+
+    try {
+
+      const response =
+        await fetch(
+          "http://localhost:5000/api/upload",
+          {
+            method: "POST",
+            body: formData
+          }
+        );
+
+      const data =
+        await response.json();
+        renderPreview(
+          data.preview
+        )
+
+      if (!data.success) {
 
         uploadStatus.textContent =
-            `Arquivo selecionado: ${file.name}`;
+          data.message;
+
+        return;
+      }
+
+      uploadStatus.textContent =
+        `Arquivo carregado: ${file.name}`;
+
+      renderPreview(
+        data.preview
+      );
+
+    } catch (error) {
+
+      uploadStatus.textContent =
+        "Erro ao carregar planilha";
+
+      console.error(error);
+
+    }
+
+  }
+);
+function renderPreview(data) {
+
+  const container =
+    document.getElementById(
+      "preview-container"
+    );
+
+  if (!container) return;
+
+  let html =
+    "<table class='data-table'>";
+
+  html += "<thead><tr>";
+
+  data.headers.forEach(header => {
+
+    html += `<th>${header}</th>`;
+
+  });
+
+  html += "</tr></thead>";
+
+  html += "<tbody>";
+
+  data.rows.forEach(row => {
+
+    html += "<tr>";
+
+    row.forEach(value => {
+
+      html += `<td>${value ?? ""}</td>`;
+
     });
 
+    html += "</tr>";
+
+  });
+
+  html += "</tbody></table>";
+
+  container.innerHTML = html;
 }
+// =================================================
+//                Previa da planilha 
+// =================================================
+function renderPreview(preview) {
+
+    const container =
+        document.getElementById(
+            "preview-container"
+        );
+
+    if (!container) return;
+
+    let html = `
+        <div class="preview-summary">
+
+            <strong>
+                ${preview.total_rows}
+            </strong>
+            registros encontrados
+
+        </div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+    `;
+
+    preview.headers.forEach(header => {
+
+        html += `
+            <th>
+                ${header}
+            </th>
+        `;
+
+    });
+
+    html += `
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    preview.rows.forEach(row => {
+
+        html += "<tr>";
+
+        row.forEach(cell => {
+
+            html += `
+                <td>
+                    ${cell ?? ""}
+                </td>
+            `;
+
+        });
+
+        html += "</tr>";
+
+    });
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+    container.innerHTML = html;
+}
+
 (function () {
   const IDS = {
     previsao: 'indicator-previsao',
