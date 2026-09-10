@@ -1,0 +1,80 @@
+/* ========================================================================== */
+/* HEADER / TOPBAR — usa a paleta principal para elementos de destaque */
+/* ========================================================================== */
+.topbar {
+    height: 64px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--shadow-sm);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 16px;
+    border-bottom: 1px solid rgba(0,0,0,.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.top-actions {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.btn {
+  background: transparent;
+  color: var(--ss-azul-dia);
+  border: 2px solid var(--ss-azul-dia);
+  padding: 0.45rem 0.7rem;
+  border-radius: 100px;
+  cursor:pointer;
+  font-size:0.95rem;
+}
+
+/* Botões / acentos */
+.btn-primary {
+  border: 2px solid var(--ss-azul-dia);
+  padding: 0.45rem 0.7rem;
+  border-radius: 100px;
+  cursor:pointer;
+  font-size:0.95rem;
+}
+.btn-avatar {
+  
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    border:2px solid var(--ss-azul-dia);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:var(--ss-azul-dia);
+
+    background:#fff;
+}
+
+
+/*
+ ========================================================================== 
+        Blocos removidos de geral
+ 67. 
+
+
+.brand {
+  display:flex;
+  gap:0.75rem;
+  align-items:center;
+}
+
+
+
+
+========================================================================== 
+        Blocos removidos de base
+ 
+ */

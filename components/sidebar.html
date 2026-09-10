@@ -1,0 +1,104 @@
+
+<!-- components/sidebar.html -->
+<aside
+  class="sidebar logo-on-dark"
+  role="navigation"
+  aria-label="Navegação principal"
+>
+  <!-- Logo: colocamos a variante branca em destaque pois a sidebar é escura -->
+  <div class="sidebar-logo-container">
+    <!-- Versão branca do logotipo (para fundo escuro) -->
+    <img
+      src="../static/img/Logo-03.png"
+      alt="Supersonic — ERP Gestão de Materiais"
+      class="brand-logo logo-white"
+      width="150"
+      height="40"
+    />
+  </div>
+
+  <div class="sidebar-header" aria-hidden="true">
+    <!-- O botão de fechamento é controlado por sidebar.js no comportamento mobile -->
+   <!-- <button
+      id="sidebar-close"
+      class="btn btn-icon sidebar-close"
+      aria-label="Fechar menu"
+    >
+      <i data-lucide=""></i>
+    </button>
+    -->
+  </div>
+
+  <nav class="sidebar-nav" role="menu" aria-label="Menu principal">
+    <div class="sidebar-section" role="presentation">
+      <div class="sidebar-section-title">INÍCIO</div>
+      <ul>
+        <li>
+          <a
+            href="../templates/index.html"
+            data-path="/index.html"
+            class="nav-link"
+            >
+            <i data-lucide="house"></i> <span> Previsões</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title"><small>PLANEJAMENTO</small></div>
+      <ul></ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title"><small>COMPRAS</small></div>
+      <ul>
+        <li>
+          <a
+            href="#"
+            data-path="/pages/orcamentos.html"
+            class="nav-link"
+            >
+            <i data-lucide="receipt"></i>
+             <span>Orçamentos</span></a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title"><small>DOCUMENTOS</small></div>
+      <ul>
+        <li>
+          <a
+            href="#"
+            data-path="/pages/recibos.html"
+            class="nav-link"
+            >
+            <i data-lucide="file-text"></i> <span>Recibos</span></a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section sidebar-future">
+      <div class="sidebar-section-title">MAIS</div>
+      <ul>
+        <li>
+          <button class="nav-link submenu-toggle" aria-expanded="false">
+            Cadastros ▸
+          </button>
+          <ul class="submenu" hidden>
+            <li><a href="#" class="nav-link">Grupos</a></li>
+            <li><a href="#" class="nav-link">Produtos</a></li>
+            <li><a href="#" class="nav-link">Fornecedores</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <small class="">Versão: protótipo • Dados mock</small>
+  </div>
+</aside>

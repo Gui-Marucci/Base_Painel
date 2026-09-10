@@ -1,0 +1,8 @@
+Esta pasta devara conter apenas arquivos no formato:
+    - xlsx
+    - xls
+    - csv
+
+Para proximas features esta pasta deverá ter planilhas para modelo referência e possivelmente nesta pasta que ficara armazenada as 
+planilhas para comparativo.
+   

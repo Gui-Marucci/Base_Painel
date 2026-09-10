@@ -1,0 +1,36 @@
+/* ==================================================
+                    TABLES
+================================================== */
+/* Container para a tabela */
+.table-container {
+
+  background: white;
+
+  border-radius: var(--border-radius);
+
+  overflow: hidden;
+
+  box-shadow: var(--shadow-sm);
+}
+/* Estilo para a tabela */
+.data-table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+}
+/* Estilo para o cabeçalho da tabela */
+.data-table th {
+
+  background: var(--ss-azul-noite);
+
+  color: white;
+}
+/* Estilo para as células da tabela */
+.data-table th,
+.data-table td {
+
+  padding: 12px;
+
+  border-bottom: 1px solid #e5e7eb;
+}

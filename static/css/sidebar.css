@@ -1,0 +1,110 @@
+/* Sidebar (basic look; mobile behavior controlled by body classes) */
+.sidebar {
+  background: #384E59;
+  padding: 1rem;
+  border-right: 1px solid #384E59;
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  box-shadow: var(--elevation-1);
+}
+
+/* Sidebar header */
+.sidebar-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:0.5rem;
+  margin-bottom: 1rem;
+}
+.sidebar-brand { display:flex; gap:0.5rem; align-items:center; }
+.sidebar-logo { border-radius:6px; }
+
+/* Sections */
+.sidebar-section { margin-bottom: 0.75rem; }
+.sidebar-section-title { font-size:0.75rem; color:var(--cor-muted); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.04em; }
+
+/* Nav links */
+.sidebar-nav ul { list-style:none; padding:0; margin:0; }
+.nav-link {
+  display:block;
+  text-decoration:none;
+  color:var(--cor-texto);
+  padding:0.5rem 0.4rem;
+  border-radius:4px;
+}
+/* ~~~~~~~~~~~~~~~~Sidebar destaque do menu Ativo(hover)~~~~~~~~~~~~~~ */
+.nav-link.active {
+border-radius:10px;
+border: 3px solid var(--cor-principal);
+display:flex;
+    justify-content:center;
+    align-items:center;
+
+
+gap: 12px;
+background: rgba(20,177,231,.15);
+color: #FFFFFF; 
+}
+[data-lucide] {
+  width: 22px;
+  height: 18px;
+
+  stroke-width: 2;
+
+  flex-shrink: 0;
+}
+
+/* Submenu basic */
+.submenu { padding-left: 0.5rem; }
+.submenu-toggle { background: transparent;
+     border: none; 
+     cursor: pointer; 
+     padding: 0.4rem; 
+     color:var(--cor-texto); 
+     border-radius:6px; 
+    }
+.submenu-toggle[aria-expanded="true"] { font-weight:600;
+     color:var(--cor-principal); 
+    }
+
+
+/* Footer */
+.sidebar-footer { margin-top: 1.5rem; 
+    font-size:0.85rem; 
+    color:var(--cor-muted); 
+}
+
+/* App root layout (sidebar + main) */
+.app-root {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+}
+/* backup */
+
+/*
+
+.sidebar {
+  background: var(--ss-azul-noite);
+  color: white;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: rgba(255,255,255,.85);
+}
+
+.nav-link:hover {
+  background: rgba(255,255,255,.08);
+}
+
+.nav-link.active {
+  background: rgba(20,177,231,.15);
+  border-left: 3px solid var(--ss-azul-dia);
+}
+*/
