@@ -34,34 +34,39 @@ uploadInput?.addEventListener(
 
       const response =
         await fetch(
-          "http://localhost:5000/api/upload",
+          "/api/upload",
           {
             method: "POST",
             body: formData
           }
         );
 
-      const data =
-        await response.json();
-        renderPreview(
-          data.preview
-        )
+      
 
-      if (!data.success) {
-
-        uploadStatus.textContent =
-          data.message;
-
-        return;
+      if (!response.ok) {
+        throw new Error(
+          `HTTP ${response.status}`
+        );
       }
 
-      uploadStatus.textContent =
-        `Arquivo carregado: ${file.name}`;
-
-      renderPreview(
-        data.preview
-      );
-
+      const data =
+        await response.json();
+        console.log(
+          "UPLOAD RESPONSE: ", ("=" * 20),
+          data
+        );
+        if (!data.success) {
+          uploadStatus.textContent = 
+          data.message;
+          return;
+        }
+        uploadStatus.textContent = 
+          `Arquivo carregado: ${file.name}`;
+          
+        renderPreview(
+          data.preview
+        );
+        
     } catch (error) {
 
       uploadStatus.textContent =
@@ -73,48 +78,6 @@ uploadInput?.addEventListener(
 
   }
 );
-function renderPreview(data) {
-
-  const container =
-    document.getElementById(
-      "preview-container"
-    );
-
-  if (!container) return;
-
-  let html =
-    "<table class='data-table'>";
-
-  html += "<thead><tr>";
-
-  data.headers.forEach(header => {
-
-    html += `<th>${header}</th>`;
-
-  });
-
-  html += "</tr></thead>";
-
-  html += "<tbody>";
-
-  data.rows.forEach(row => {
-
-    html += "<tr>";
-
-    row.forEach(value => {
-
-      html += `<td>${value ?? ""}</td>`;
-
-    });
-
-    html += "</tr>";
-
-  });
-
-  html += "</tbody></table>";
-
-  container.innerHTML = html;
-}
 // =================================================
 //                Previa da planilha 
 // =================================================
@@ -257,9 +220,9 @@ function renderPreview(preview) {
   }
 
   async function loadIndicators() {
-    const previsaoCandidates = makeCandidates('data/previsoes.json');
-    const orcamentosCandidates = makeCandidates('data/orcamentos.json');
-    const recibosCandidates = makeCandidates('data/recibos.json');
+    const previsaoCandidates = makeCandidates('core/data/previsoes.json');
+    const orcamentosCandidates = makeCandidates('core/data/orcamentos.json');
+    const recibosCandidates = makeCandidates('core/data/recibos.json');
 
     // PREVISÕES
     try {
@@ -309,7 +272,7 @@ function renderPreview(preview) {
   }
 
   function init() {
-    loadIndicators();
+   // loadIndicators();
     syncSidebarToggle();
     document.querySelectorAll('.card').forEach(card => {
       card.addEventListener('click', (ev) => {

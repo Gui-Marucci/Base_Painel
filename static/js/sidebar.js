@@ -5,8 +5,8 @@
   // bases candidatas: document.baseURI (resolve corretamente quando página está em subpasta),
   // location.origin (site root), e algumas variações práticas.
   const bases = [
-    document.baseURI,                   // ex: http://localhost:5500/pages/
-    window.location.origin + '/',       // ex: http://localhost:5500/
+    document.baseURI,                   // ex: "http://127.0.0.1:5500"/pages/
+    window.location.origin + '/',       // ex: "http://127.0.0.1:5500"/
     window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/') // current dir
   ];
 

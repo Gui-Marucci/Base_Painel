@@ -1,19 +1,62 @@
 from pathlib import Path
-from flask import Flask, request, jsonify
+from flask import(Flask,
+                   jsonify,
+                     request,
+                       render_template
+                       )
+
+from flask_cors import CORS 
 
 from services.planilhas import read_excel
-
-app = Flask(__name__)
-
+# ==================================================
+# CONFIGURAÇÃO
+# ==================================================
 BASE_DIR = Path(__file__).resolve().parent
+
+PROJECT_DIR = BASE_DIR.parent
+
+TEMPLATES_DIR = PROJECT_DIR / "templates"
+
+STATIC_DIR = PROJECT_DIR / "static"
 
 UPLOAD_FOLDER = BASE_DIR / "uploads"
 
 UPLOAD_FOLDER.mkdir(
-    parents=True,
-    exist_ok=True
+parents=True,
+exist_ok=True
 )
 
+# ==================================================
+# APP
+# ==================================================+
+
+app = Flask(
+    __name__,
+    template_folder=str(TEMPLATES_DIR),
+    static_folder=str(STATIC_DIR)
+    )
+CORS(  # ---Manter enquanto houver camadas externas
+    app,
+        resources={
+            r"/api/*": {
+                "origins": [
+                    "http://127.0.0.1:5500"
+                ]
+            }
+        }) 
+# ==================================================
+# ROTAS HTML
+# ==================================================
+@app.get("/")
+def home():
+    """
+    Página inicial do ERP.
+    """
+    return render_template("index.html")
+
+# ==================================================
+# API
+# ==================================================
 
 @app.post("/api/upload")
 def upload_excel():
@@ -28,24 +71,30 @@ def upload_excel():
         }), 400
 
     extension = Path(file.filename).suffix.lower()
-
-    allowed = [
+    """
+    
+    """
+    if extension not in [
         ".xlsx",
         ".xls"
-    ]
-
-    if extension not in allowed:
+    ]:
 
         return jsonify({
             "success": False,
             "message": "Formato inválido"
         }), 400
 
-    save_path = UPLOAD_FOLDER / file.filename
+    save_path = (UPLOAD_FOLDER / file.filename)
 
     file.save(save_path)
 
+
+
     preview = read_excel(str(save_path))
+    print("=" * 50)
+    print("PREVIEW RETORNADO", preview)
+    print("=" * 50)
+    
 
     return jsonify({
         "success": True,

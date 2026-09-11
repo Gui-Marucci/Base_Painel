@@ -118,24 +118,22 @@ def read_excel(file_path: str) -> dict:
 # ====================== Detecta o formato real====================================
 def detect_excel_type(file_path: str) -> str:
     """
-    Detecta o formato real do arquivo XLSX ou XLS com base na assinatura do arquivo e nãoem sua extensão.
-      Retorna a extensão real do arquivo (".xlsx" ou ".xls").
+    Detecta formato real do arquivo.
     """
 
     with open(file_path, "rb") as arquivo:
-
         assinatura = arquivo.read(8)
 
-    # XLSX
-    if assinatura.startswith(b"PK"):
+    print("Assinatura:", assinatura)
+
+    # XLSX / XLSM / arquivo OpenXML
+    if assinatura[:2] == b"PK":
         return ".xlsx"
 
-    # XLS verdadeiro
-    if assinatura.startswith(
-        b"\xD0\xCF\x11\xE0"
-    ):
+    # XLS antigo
+    if assinatura[:4] == b"\xD0\xCF\x11\xE0":
         return ".xls"
 
     raise ValueError(
-        "Formato de planilha desconhecido."
+        f"Formato desconhecido: {assinatura}"
     )
