@@ -139,6 +139,12 @@ body {
   height: 48px;              /* ajuste padrão — troque conforme necessidade */
   width: auto;
 }
+body.sidebar-collapsed .brand-logo{
+  display: none;
+}
+body.sidebar-collapsed .brand-mark {
+  display: block;
+}
 
 /* Variante para fundos escuros (geralmente usamos a versão branca do logotipo) */
 .brand-logo--white {
@@ -169,9 +175,55 @@ body {
 /* SIDEBAR / BRAND (LOGO) */
 /* ========================================================================== */
 
-/* =========================================================================== */
-/* Ajustes de Layout: Sidebar sempre visível em desktop, off-canvas mobile 
-/* ============================================================================ */
+/* ==================================================
+   SIDEBAR COLAPSADA
+================================================== */
+
+body.sidebar-collapsed {
+
+    --sidebar-width: 1px;
+
+}
+
+/* ==================================================
+   SIDEBAR VISIBILIDADE
+================================================== */
+
+/*
+  Estado padrão:
+  sidebar oculta
+*/
+
+body.sidebar-hidden {
+
+    --sidebar-width: 0px;
+}
+
+/*
+  Container não ocupa espaço
+*/
+
+body.sidebar-hidden #sidebar-container {
+
+    width: 0;
+
+    overflow: hidden;
+}
+
+/*
+  Sidebar fora da tela
+*/
+
+body.sidebar-hidden .sidebar {
+
+    width: 0;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    overflow: hidden;
+}
 
 
 /* ==========================================================
@@ -190,7 +242,11 @@ body {
         overflow-y: auto;
     }
 }
-
+@media (max-width: 1200) {
+  :root {
+    --sidebar-width: 220px;
+  }
+}
 
 
 /* coluna da sidebar */

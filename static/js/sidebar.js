@@ -1,5 +1,4 @@
 // static/js/sidebar.js (versão mais resiliente)
-// Tenta carregar components/sidebar.html a partir de várias bases
 (function () {
   const SIDEBAR_CONTAINER = '#sidebar-container';
   // bases candidatas: document.baseURI (resolve corretamente quando página está em subpasta),
@@ -10,62 +9,60 @@
     window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/') // current dir
   ];
 
-  // Gera candidatos resolvendo 'components/sidebar.html' contra cada base
-  function makeCandidates() {
-    const candidates = new Set();
-    bases.forEach(b => {
-      try {
-        const url = new URL('components/sidebar.html', b).href;
-        candidates.add(url);
-      } catch (e) { /* ignore */ }
-      // também tente com ../components e ../../components (por precaução)
-      try { candidates.add(new URL('../components/sidebar.html', b).href); } catch(e){}
-      try { candidates.add(new URL('../../components/sidebar.html', b).href); } catch(e){}
-      try { candidates.add(new URL('/components/sidebar.html', b).href); } catch(e){}
-    });
-    return Array.from(candidates);
-  }
+  /* ==================================================
+   SIDEBAR
+================================================== */
 
-  async function fetchFirstAvailable(urls) {
-    for (const u of urls) {
-      try {
-        console.debug('sidebar.js: tentando', u);
-        const res = await fetch(u, { cache: 'no-store' });
-        if (res && res.ok) {
-          console.debug('sidebar.js: carregou sidebar de', u);
-          return res.text();
-        } else {
-          console.warn('sidebar.js: tentativa falhou', u, res && res.status);
-        }
-      } catch (err) {
-        console.warn('sidebar.js: erro ao tentar fetch', u, err);
-      }
-    }
-    throw new Error('Nenhum dos paths de sidebar respondeu com 200');
-  }
+async function initSidebar() {
 
-  async function initSidebar() {
-    const container = document.querySelector(SIDEBAR_CONTAINER);
-    if (!container) {
-      console.warn('sidebar.js: container não encontrado:', SIDEBAR_CONTAINER);
-      return;
-    }
+    const container =
+        document.querySelector(
+            "#sidebar-container"
+        );
 
-    const candidates = makeCandidates();
+    if (!container) return;
+
     try {
-      const html = await fetchFirstAvailable(candidates);
-      container.innerHTML = html;
-      lucide.createIcons(); // renderiza ícones lucide no sidebar
-      container.querySelectorAll('[aria-hidden]').forEach(el => el.removeAttribute('aria-hidden'));
-      bindSidebarEvents(container);
-      highlightActiveLink(container);
-      restoreSubmenuState(container);
-    } catch (err) {
-      container.textContent = 'Não foi possível carregar o menu.';
-      console.error('sidebar.js: Falha ao carregar Sidebar', err);
-      console.error('sidebar.js: paths testados:', candidates);
+
+        const response =
+            await fetch(
+                "/components/sidebar.html"
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                `HTTP ${response.status}`
+            );
+
+        }
+
+        const html =
+            await response.text();
+
+        container.innerHTML = html;
+
+        registerSidebarEvents();
+
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Sidebar:",
+            error
+        );
+
     }
-  }
+
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    initSidebar
+);
 
   /* (mantém as funções auxiliares existentes: highlightActiveLink, bindSidebarEvents,
      saveSubmenuState, restoreSubmenuState) — copie-as do arquivo original sem alteração. */

@@ -145,6 +145,9 @@ function renderPreview(preview) {
     `;
 
     container.innerHTML = html;
+    container.classList.add(
+      "has-preview"
+    )
 }
 
 (function () {
@@ -168,13 +171,9 @@ function renderPreview(preview) {
       document.baseURI,
       window.location.origin + '/',
       window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/')
-    ];
+    ];// implementar api ou substituir esse bloco 
     const candidates = new Set();
     bases.forEach(b => {
-      try { candidates.add(new URL(filename, b).href); } catch(e){}
-      try { candidates.add(new URL('../' + filename, b).href); } catch(e){}
-      try { candidates.add(new URL('../../' + filename, b).href); } catch(e){}
-      try { candidates.add(new URL('/' + filename, b).href); } catch(e){}
     });
     return Array.from(candidates);
   }
@@ -261,15 +260,41 @@ function renderPreview(preview) {
     }
   }
 
-  function syncSidebarToggle() {
-    const toggle = document.getElementById('sidebar-toggle');
+ /* ==================================================
+   SIDEBAR TOGGLE
+================================================== */
+
+function syncSidebarToggle() {
+
+    const toggle =
+        document.getElementById(
+            "sidebar-toggle"
+        );
+
     if (!toggle) return;
-    const obs = new MutationObserver(() => {
-      const open = document.body.classList.contains('sidebar-open');
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-  }
+
+    toggle.addEventListener(
+        "click",
+        () => {
+
+            document.body.classList.toggle(
+                "sidebar-collapsed"
+            );
+
+            const expanded =
+                !document.body.classList.contains(
+                    "sidebar-collapsed"
+                );
+
+            toggle.setAttribute(
+                "aria-expanded",
+                expanded
+            );
+
+        }
+    );
+
+}
 
   function init() {
    // loadIndicators();

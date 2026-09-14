@@ -103,7 +103,7 @@ def read_excel(file_path: str) -> dict:
 
     data_rows = []
 
-    for row in rows[1:31]:
+    for row in rows[1:8]:
 
         data_rows.append(
             [value for value in row]
@@ -131,7 +131,7 @@ def detect_excel_type(file_path: str) -> str:
         return ".xlsx"
 
     # XLS antigo
-    if assinatura[:4] == b"\xD0\xCF\x11\xE0":
+    if assinatura[:4] == b"\\xD0\\xCF\\x11\\xE0":
         return ".xls"
 
     raise ValueError(

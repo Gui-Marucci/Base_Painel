@@ -6,6 +6,8 @@ from flask import(Flask,
                        )
 
 from flask_cors import CORS 
+from flask import send_from_directory
+
 
 from services.planilhas import read_excel
 # ==================================================
@@ -15,6 +17,10 @@ BASE_DIR = Path(__file__).resolve().parent
 
 PROJECT_DIR = BASE_DIR.parent
 
+COMPONENTS_DIR = (
+    PROJECT_DIR / 
+    "components" #adiciona o diretorio components para reincluir a sidebar 
+)
 TEMPLATES_DIR = PROJECT_DIR / "templates"
 
 STATIC_DIR = PROJECT_DIR / "static"
@@ -47,12 +53,29 @@ CORS(  # ---Manter enquanto houver camadas externas
 # ==================================================
 # ROTAS HTML
 # ==================================================
+@app.get("/components/<path:filename>")
+def components(filename):
+    return send_from_directory(
+        COMPONENTS_DIR, 
+        filename
+
+    )
 @app.get("/")
 def home():
     """
     Página inicial do ERP.
     """
     return render_template("index.html")
+
+""" incluir rotas quando for iterando mais paginas 
+@app.get("/orcamentos")
+def orcamentos():
+    return render_template ("orcamentos.html")
+
+@app.get("/recibos")
+def recibos():
+    return render_template ("recibos.html")
+"""
 
 # ==================================================
 # API
